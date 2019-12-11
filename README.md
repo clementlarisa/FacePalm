@@ -4,6 +4,7 @@ Allows users to:
 * manage their profiles and photo albums
 * join and create groups
 * post thoughts and photos
+* chat with friends
 
 Unregistered users may access public pages but will be prompted to sign up.
 
