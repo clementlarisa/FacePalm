@@ -1,0 +1,15 @@
+﻿ ViewBag.Title = "Lista useri";
+}
+<h2>@ViewBag.Title</h2>
+@foreach (var user in ViewBag.Users)
+{
+    <p>@user.FirstName</p>
+    <p>@user.LastName</p>
+    <p>@user.Email</p>
+    <a href="/Student/Show/@user.UserId">Afisare user</a>
+    <br />
+    <hr />
+    <br />
+}
+<a href="/User/New">Adauga alt user</a>
+<br />
