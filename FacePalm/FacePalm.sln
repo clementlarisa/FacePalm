@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29609.76
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FacePalm", "FacePalm\FacePalm.csproj", "{3B936520-2DB1-449B-8D50-8A76359E633B}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{3B936520-2DB1-449B-8D50-8A76359E633B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3B936520-2DB1-449B-8D50-8A76359E633B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3B936520-2DB1-449B-8D50-8A76359E633B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3B936520-2DB1-449B-8D50-8A76359E633B}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {AB2BA594-26F0-4F68-9D95-807CC335BEC5}
+	EndGlobalSection
+EndGlobal
