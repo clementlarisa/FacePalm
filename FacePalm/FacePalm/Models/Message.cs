@@ -10,18 +10,13 @@ namespace FacePalm.Models
     public class Message
     {
         [Key]
-        public int MessageId { get; set; }
+        public string MessageId { get; set; }
         [Required]
-        public int SenderId { get; set; }
+        public string SenderId { get; set; }
         [Required]
-        public int ReceiverId { get; set; }
+        public string ReceiverId { get; set; }
         [Required]
         public string Content { get; set; }
     }
-
-    public class MessageDBContext : DbContext
-    {
-        public MessageDBContext() : base("DBConnectionString") { }
-        public DbSet<Message> Messages { get; set; }
-    }
+    
 }

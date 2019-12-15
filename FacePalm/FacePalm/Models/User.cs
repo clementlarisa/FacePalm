@@ -6,32 +6,38 @@ using System.Data.Entity;
 using System.Drawing;
 using System.Linq;
 using System.Web;
-using static FacePalm.Enums.ProfilePrivacyEnum;
+using static FacePalm.Enums.FacePalmEnums;
 
 namespace FacePalm.Models
 {
     public class User
     {
         [Key]
-        public int UserId { get; set; }
+        public string UserId { get; set; }
+        [Required]
         public string FirstName { get; set; }
+        [Required]
         public string LastName { get; set; }
+        [Required]
         public string Email { get; set; }
+        [Required]
         public DateTime BirthDate { get; set; }
-        public Bitmap ProfilePicture { get; set; }
-        public ProfilePrivacyEnum ProfilePrivacy { get; set; }
-        public Dictionary<int,int> FriendsIds { get; set; }
-        public List<int> AlbumsIds { get; set; }
-        public List<int> ConversationsIds { get; set; }
-        public List<int> GroupsIds { get; set; }
-        public List<int> PostsIds { get; set; }
-        public List<int> CommentsIds { get; set; }
-        public Bitmap ProfileImage { get; set; }
+        [Required]
+        public string Education { get; set; }
+        [Required]
+        public GenderTypes Gender { get; set; }
+        public string Job { get; set; }
+        [Required]
+        public RelationshipStatus RelationshipStatus { get; set; }
+        //public Bitmap ProfilePicture { get; set; }
+        [Required]
+        public ProfilePrivacyTypes ProfilePrivacy { get; set; }
+        public Dictionary<string, string> FriendsIds { get; set; }
+        public List<string> AlbumsIds { get; set; }
+        public List<string> ConversationsIds { get; set; }
+        public List<string> GroupsIds { get; set; }
+        public List<string> PostsIds { get; set; }
+        public List<string> CommentsIds { get; set; }
     }
-
-    public class UserDBContext : DbContext
-    {
-        public UserDBContext() : base("DBConnectionString") { }
-        public DbSet<User> Users { get; set; }
-    }
+    
 }

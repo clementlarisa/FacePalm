@@ -1,4 +1,5 @@
-﻿using System.Web.Mvc;
+﻿using FacePalm.Models;
+using System.Web.Mvc;
 using System.Web.Routing;
 
 namespace FacePalm
@@ -14,6 +15,7 @@ namespace FacePalm
                 url: "{controller}/{action}/{id}",
                 defaults: new { controller = "Home", action = "Index", id = UrlParameter.Optional }
             );
+            
         }
     }
 }

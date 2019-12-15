@@ -6,6 +6,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
+using static FacePalm.Enums.FacePalmEnums;
 
 namespace FacePalm.Controllers
 {
@@ -76,7 +77,9 @@ namespace FacePalm.Controllers
             switch (result)
             {
                 case SignInStatus.Success:
-                    return RedirectToLocal(returnUrl);
+                    var appDbContext = new ApplicationDbContext();
+                    var user = appDbContext.Users.FirstOrDefault(a => a.Email == model.Email);
+                    return RedirectToLocal("/User/Show/"+user.UserId);
                 case SignInStatus.LockedOut:
                     return View("Lockout");
                 case SignInStatus.RequiresVerification:
@@ -150,6 +153,26 @@ namespace FacePalm.Controllers
             {
                 var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
                 var result = await UserManager.CreateAsync(user, model.Password);
+                User userToDB = new User
+                {
+                    UserId = user.Id,
+                    FirstName = model.FirtName,
+                    LastName = model.LastName,
+                    Email = model.Email,
+                    BirthDate = model.BirthDate,
+                    Education = model.Education,
+                    Job = model.Job,
+                    Gender = model.Gender,
+                    RelationshipStatus = model.RelationshipStatus,
+                    ProfilePrivacy = model.ProfilePrivacy,
+                    FriendsIds = null,
+                    AlbumsIds =null,
+                    ConversationsIds = null,
+                    GroupsIds = null,
+                    PostsIds = null,
+                    CommentsIds = null
+                };
+                
                 if (result.Succeeded)
                 {
                     await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
@@ -159,7 +182,11 @@ namespace FacePalm.Controllers
                     // string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
                     // var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
                     // await UserManager.SendEmailAsync(user.Id, "Confirm your account", "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");
+                    UserManager.AddToRole(user.Id, "User");
 
+                    var appDbContext = new ApplicationDbContext();
+                    appDbContext.Users.Add(userToDB);
+                    appDbContext.SaveChanges();
                     return RedirectToAction("Index", "Home");
                 }
                 AddErrors(result);

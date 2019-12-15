@@ -171,7 +171,7 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\UserController.cs" />
-    <Compile Include="Enums\ProfilePrivacy.cs" />
+    <Compile Include="Enums\FacePalmEnums.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -250,7 +250,7 @@
     <Content Include="Views\Shared\Lockout.cshtml" />
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
     <Content Include="Views\User\Index.cshtml" />
-    <Content Include="Views\User\New.cshtml" />
+    <Content Include="Views\User\Show.cshtml" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>

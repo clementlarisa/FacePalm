@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
+using System.Data.Entity;
 using System.Security.Claims;
 using System.Threading.Tasks;
 
@@ -23,9 +24,13 @@ namespace FacePalm.Models
             : base("DefaultConnection", throwIfV1Schema: false)
         {
         }
-
-        // TODO: Set Models
-        // public DbSet<Post> Posts { get; set; }
+        public DbSet<User> Users { get; set; }
+        public DbSet<Album> Albums { get; set; }
+        public DbSet<Comment> Comments { get; set; }
+        public DbSet<Conversation> Conversations { get; set; }
+        public DbSet<Group> Groups { get; set; }
+        public DbSet<Message> Messages { get; set; }
+        public DbSet<Post> Posts { get; set; }
 
         public static ApplicationDbContext Create()
         {

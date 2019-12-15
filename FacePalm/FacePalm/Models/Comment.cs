@@ -11,19 +11,14 @@ namespace FacePalm.Models
     {
 
         [Key]
-        public int CommentId { get; set; }
+        public string CommentId { get; set; }
         [Required]
-        public int UserId { get; set; }
+        public string UserId { get; set; }
         [Required]
-        public int PostId { get; set; }
+        public string PostId { get; set; }
         [Required]
         public string Content { get; set; }
         public DateTime Date { get; set; }
     }
-
-    public class CommentDBContext : DbContext
-    {
-        public CommentDBContext() : base("DBConnectionString") { }
-        public DbSet<Comment> Comments { get; set; }
-    }
+    
 }
