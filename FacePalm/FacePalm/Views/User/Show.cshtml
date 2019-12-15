@@ -1,0 +1,26 @@
+﻿<div class="col-md-8">
+    <div class="profile clearfix">
+        <div class="user clearfix">
+            <div class="avatar">
+                <img src="https://bootdey.com/img/Content/user-453533-fdadfd.png" class="img-thumbnail img-profile">
+            </div>
+            <div class="userInformations"
+                <h1><span class="glyphicon glyphicon-asterisk"></span>@ViewBag.User.FirstName @ViewBag.User.LastName</h1>
+                <h3><span class="glyphicon glyphicon-gift"></span> <span class="title">Date of birth:</span> @ViewBag.User.BirthDate</h3>
+                <h3><span class="glyphicon glyphicon-pencil"></span> <span class="title">Education:</span>@ViewBag.User.Education</h3>
+                @if (!string.IsNullOrEmpty(ViewBag.User.Job))
+                {
+                <h3><span class="glyphicon glyphicon-euro"></span> <span class="title">Job:</span>@ViewBag.User.Job</h3>
+                }
+                <h3><span class="glyphicon glyphicon-heart-empty"></span> <span class="title">Relationship status:</span>@ViewBag.User.RelationshipStatus</h3>
+            </div>
+            <h2>Martin maoth</h2>
+            <div class="actions">
+                <div class="btn-group">
+                    <button class="btn btn-default btn-sm tip btn-responsive" title="" data-original-title="Add to friends"><span class="glyphicon glyphicon-plus glyphicon glyphicon-white"></span> Friends</button>
+                    <button class="btn btn-default btn-sm tip btn-responsive" title="" data-original-title="Send message"><span class="glyphicon glyphicon-envelope glyphicon glyphicon-white"></span> Message</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

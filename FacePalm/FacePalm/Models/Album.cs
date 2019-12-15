@@ -11,15 +11,10 @@ namespace FacePalm.Models
     public class Album
     {
         [Key]
-        public int AlbumId { get; set; }
+        public string AlbumId { get; set; }
         [Required]
-        public List<Bitmap> Images { get; set; } 
-        public List<int> CommentsIds { get; set; }
-        public List<int> PostsIds { get; set; }
-    }
-    public class AlbumDBContext : DbContext
-    {
-        public AlbumDBContext() : base("DBConnectionString") { }
-        public DbSet<Album> Albums { get; set; }
+        //public List<Bitmap> Images { get; set; } 
+        public List<string> CommentsIds { get; set; }
+        public List<string> PostsIds { get; set; }
     }
 }

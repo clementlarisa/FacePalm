@@ -10,14 +10,9 @@ namespace FacePalm.Models
     public class Group
     {
         [Key]
-        public int GroupId { get; set; }
-        public List<int> UsersIds { get; set; }
-        public List<int> PostsIds { get; set; }
+        public string GroupId { get; set; }
+        public List<string> UsersIds { get; set; }
+        public List<string> PostsIds { get; set; }
     }
-
-    public class GroupDBContext : DbContext
-    {
-        public GroupDBContext() : base("DBConnectionString") { }
-        public DbSet<Group> Groups { get; set; }
-    }
+    
 }

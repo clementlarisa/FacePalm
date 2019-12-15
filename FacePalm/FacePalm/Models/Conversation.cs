@@ -10,17 +10,13 @@ namespace FacePalm.Models
     public class Conversation
     {
         [Key]
-        public int ConversationId { get; set; }
+        public string ConversationId { get; set; }
         [Required]
-        public int FirstUserId { get; set; }
+        public string FirstUserId { get; set; }
         [Required]
-        public int SecondUserId { get; set; }
-        public List<int> MessagesIds { get; set; }
+        public string SecondUserId { get; set; }
+        public List<string> MessagesIds { get; set; }
         public DateTime Date { get; set; }
     }
-    public class ConversationDBContext : DbContext
-    {
-        public ConversationDBContext() : base("DBConnectionString") { }
-        public DbSet<Conversation> Conversations { get; set; }
-    }
+    
 }

@@ -1,5 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using static FacePalm.Enums.FacePalmEnums;
 
 namespace FacePalm.Models
 {
@@ -68,6 +70,42 @@ namespace FacePalm.Models
         [EmailAddress]
         [Display(Name = "Email")]
         public string Email { get; set; }
+
+        [Required]
+        [Display(Name = "First name")]
+        public string FirtName { get; set; }
+
+        [Required]
+        [Display(Name = "Last name")]
+        public string LastName { get; set; }
+
+        [Required]
+        [Display(Name = "Birth date")]
+        [DataType(DataType.Date)]
+        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:yyy-MM-dd}")]
+        public DateTime BirthDate { get; set; }
+
+        [Required]
+        [Display(Name = "Gender")]
+        [DisplayFormat(ApplyFormatInEditMode = true)]
+        public GenderTypes Gender { get; set; }
+
+        [Required]
+        [Display(Name = "Education")]
+        public string Education { get; set; }
+        
+        [Display(Name = "Job")]
+        public string Job { get; set; }
+
+        [Required]
+        [Display(Name = "Relationship Status")]
+        [DisplayFormat(ApplyFormatInEditMode = true)]
+        public RelationshipStatus RelationshipStatus { get; set; }
+
+        [Required]
+        [Display(Name = "Profile Privacy")]
+        [DisplayFormat(ApplyFormatInEditMode = true)]
+        public ProfilePrivacyTypes ProfilePrivacy { get; set; }
 
         [Required]
         [StringLength(100, ErrorMessage = "The {0} must be at least {2} characters long.", MinimumLength = 6)]
