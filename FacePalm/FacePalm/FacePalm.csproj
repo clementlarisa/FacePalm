@@ -190,6 +190,10 @@
     <Compile Include="Startup.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="App_Data\aspnet-FacePalm-20191212103250.mdf" />
+    <Content Include="App_Data\aspnet-FacePalm-20191212103250_log.ldf">
+      <DependentUpon>aspnet-FacePalm-20191212103250.mdf</DependentUpon>
+    </Content>
     <Content Include="App_Data\FacePalmDataBase.mdf" />
     <Content Include="App_Data\FacePalmDataBase_log.ldf">
       <DependentUpon>FacePalmDataBase.mdf</DependentUpon>
@@ -226,8 +230,6 @@
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
-    <Content Include="Views\Home\About.cshtml" />
-    <Content Include="Views\Home\Contact.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Account\_ExternalLoginsListPartial.cshtml" />
     <Content Include="Views\Account\ConfirmEmail.cshtml" />
@@ -251,8 +253,12 @@
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
     <Content Include="Views\User\Index.cshtml" />
     <Content Include="Views\User\Show.cshtml" />
+    <Content Include="Views\User\Error.cshtml" />
+    <Content Include="Views\User\Edit.cshtml" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Images\" />
+  </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />
     <Content Include="fonts\glyphicons-halflings-regular.woff" />

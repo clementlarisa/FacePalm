@@ -1581,10 +1581,9 @@ pre code {
   overflow-y: scroll;
 }
 .container {
-  padding-right: 15px;
-  padding-left: 15px;
-  margin-right: auto;
-  margin-left: auto;
+  width:100%;
+  margin-right: 50px;
+  margin-left: 50px;
 }
 @media (min-width: 768px) {
   .container {
@@ -5032,6 +5031,7 @@ a.badge:focus {
   margin-left: 3px;
 }
 .jumbotron {
+    width: 90%!important;
   padding-top: 30px;
   padding-bottom: 30px;
   margin-bottom: 30px;
