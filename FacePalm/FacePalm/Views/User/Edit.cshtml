@@ -1,74 +1,48 @@
 ﻿@using FacePalm.Enums
 @model FacePalm.Models.User
 @{
-    ViewBag.Title = "Edit profile";
+ ViewBag.Title = "Edit";
 }
+<h2>Edit my profile</h2>
 
-<h2>@ViewBag.Title.</h2>
-
-@using (Html.BeginForm("Register", "Account", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
-{
-    @Html.AntiForgeryToken()
-    <h4>Edit profile</h4>
-    <hr />
-    @Html.ValidationSummary("", new { @class = "text-danger" })
-    
-    <div class="form-group">
-        @Html.LabelFor(m => m.FirstName, new { @class = "col-md-2 control-label" })
-        <div class="col-md-10">
-            @Html.TextBoxFor(m => m.FirstName, new { @class = "form-control" })
-        </div>
-    </div>
-    <div class="form-group">
-        @Html.LabelFor(m => m.LastName, new { @class = "col-md-2 control-label" })
-        <div class="col-md-10">
-            @Html.TextBoxFor(m => m.LastName, new { @class = "form-control" })
-        </div>
-    </div>
-    <div class="form-group">
-        @Html.LabelFor(m => m.BirthDate, new { @class = "col-md-2 control-label" })
-        <div class="col-md-10">
-            @Html.TextBoxFor(m => m.BirthDate, new { @class = "input-large" })
-        </div>
-    </div>
-    <div class="form-group">
-        @Html.LabelFor(m => m.Education, new { @class = "col-md-2 control-label" })
-        <div class="col-md-10">
-            @Html.TextBoxFor(m => m.Education, new { @class = "form-control" })
-        </div>
-    </div>
-    <div class="form-group">
-        @Html.LabelFor(m => m.Job, new { @class = "col-md-2 control-label" })
-        <div class="col-md-10">
-            @Html.TextBoxFor(m => m.Job, new { @class = "form-control" })
-        </div>
-    </div>
-    <div class="form-group">
-        @Html.LabelFor(m => m.Gender, new { @class = "col-md-2 control-label" })
-        @Html.DropDownListFor(m => m.Gender,
-                    new SelectList(Enum.GetValues(typeof(FacePalm.Enums.FacePalmEnums.GenderTypes))),
-                    new { @class = "form-control" })
-    </div>
-    <div class="form-group">
-        @Html.LabelFor(m => m.ProfilePrivacy, new { @class = "col-md-2 control-label" })
-        @Html.DropDownListFor(m => m.ProfilePrivacy,
-                    new SelectList(Enum.GetValues(typeof(FacePalm.Enums.FacePalmEnums.ProfilePrivacyTypes))),
-                    new { @class = "form-control" })
-    </div>
-    <div class="form-group">
-        @Html.LabelFor(m => m.RelationshipStatus, new { @class = "col-md-2 control-label" })
-        @Html.DropDownListFor(m => m.RelationshipStatus,
-                    new SelectList(Enum.GetValues(typeof(FacePalm.Enums.FacePalmEnums.RelationshipStatus))),
-                    new { @class = "form-control" })
-    </div>
-    
-    <div class="form-group">
-        <div class="col-md-offset-2 col-md-10">
-            <input type="submit" class="btn btn-default" value="Edit" />
-        </div>
-    </div>
-}
-
-@section Scripts {
-    @Scripts.Render("~/bundles/jqueryval")
-}
+<form method="post" action="/User/Edit/@Model.UserId">
+    @Html.HttpMethodOverride(HttpVerbs.Put)
+    <input type="hidden" name="Email" value="@Model.Email" />
+    <input type="hidden" name="UserId" value="@Model.UserId" />
+    @Html.Label("FirstName", "First name")
+    <br />
+    @Html.Editor("FirstName")
+    <br /><br />
+    @Html.Label("LastName", "Last name")
+    <br />
+    @Html.Editor("LastName")
+    <br /><br />
+    @Html.Label("Birthdate", "Birthdate")
+    <br />
+    @Html.Editor("BirthDate")
+    <br /><br />
+    @Html.Label("Education", "Education")
+    <br />
+    @Html.Editor("Education")
+    <br /><br />
+    @Html.Label("Job", "Job")
+    <br />
+    @Html.Editor("Job")
+    <br /><br />
+    @Html.Label("Gender", "Gender")
+    <br />
+    @Html.DropDownListFor(m => m.Gender, new SelectList(Enum.GetValues(typeof(FacePalmEnums.GenderTypes))), new { @class = "form-control" })
+    <br /><br />
+    @Html.Label("RelationshipStatus", "Relationship status")
+    <br />
+    @Html.DropDownListFor(m => m.RelationshipStatus, new SelectList(Enum.GetValues(typeof(FacePalmEnums.RelationshipStatus))), new { @class = "form-control" })
+    <br /><br />
+    @Html.Label("ProfilePrivacy", "Profile privacy")
+    <br />
+    @Html.DropDownListFor(m => m.ProfilePrivacy, new SelectList(Enum.GetValues(typeof(FacePalmEnums.ProfilePrivacyTypes))), new { @class = "form-control" })
+    <br /><br />
+    <button type="submit">Make changes</button>
+</form>
+    @section Scripts {
+        @Scripts.Render("~/bundles/jqueryval")
+    }
