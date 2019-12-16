@@ -56,9 +56,9 @@ namespace FacePalm.Controllers
         {
             try
             {
+
                 if (ModelState.IsValid)
                 {
-
                     User user = _applicationDBContext.Users.Find(id);
                     ViewBag.User = user;
                     if (user.UserId == User.Identity.GetUserId() || User.IsInRole("Administrator"))
@@ -103,7 +103,9 @@ namespace FacePalm.Controllers
                 }
                 else
                 {
-                    return View(requestUser);
+                    TempData["message"] = "Something went wrong...";
+                    ViewBag.message = TempData["message"].ToString();
+                    return View("Error");
                 }
                 
             }
@@ -120,9 +122,18 @@ namespace FacePalm.Controllers
             User user = _applicationDBContext.Users.Find(id);
             if (user.UserId == User.Identity.GetUserId() || User.IsInRole("Administrator"))
             {
+                /*
+                var albums = _applicationDBContext.Albums.Select(a => a.UserId == user.UserId);
+                _applicationDBContext.Albums.Remove(albums);
+                Comment comments = _applicationDBContext.Comments.FirstOrDefault(c => c.UserId == user.UserId);
+                _applicationDBContext.Comments.Remove(comments);
+                _applicationDBContext.Groups.Where(g => g.UsersIds.Remove(user.UserId));
+                Conversation
+                _applicationDBContext.Conversations.Remove
+                */
                 _applicationDBContext.Users.Remove(user);
                 _applicationDBContext.SaveChanges();
-                TempData["message"] = "The user has been removed!";
+                TempData["message"] = "The user has been successfully removed!";
                 ViewBag.message = TempData["message"].ToString();
                 return View("Index", "Home");
             }

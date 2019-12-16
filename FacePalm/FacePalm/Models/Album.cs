@@ -12,8 +12,9 @@ namespace FacePalm.Models
     {
         [Key]
         public string AlbumId { get; set; }
-        [Required]
+        //[Required]
         //public List<Bitmap> Images { get; set; } 
+        public string UserId { get; set; }
         public List<string> CommentsIds { get; set; }
         public List<string> PostsIds { get; set; }
     }
