@@ -73,7 +73,7 @@ namespace FacePalm.Models
 
         [Required]
         [Display(Name = "First name")]
-        public string FirtName { get; set; }
+        public string FirstName { get; set; }
 
         [Required]
         [Display(Name = "Last name")]

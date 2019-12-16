@@ -27,11 +27,12 @@ namespace FacePalm.Controllers
         {
             User user = _applicationDBContext.Users.Find(id);
             ViewBag.User = user;
+            ViewBag.CurrentUser = User.Identity.GetUserId();
             return View();
         }
 
-        [Authorize(Roles = "Editor,Administrator")]
-        public ActionResult Edit(int id)
+        [Authorize(Roles = "User,Editor,Administrator")]
+        public ActionResult Edit(string id)
         {
             User user = _applicationDBContext.Users.Find(id);
             ViewBag.User = user;
@@ -43,13 +44,15 @@ namespace FacePalm.Controllers
             else
             {
                 TempData["message"] = "You do not have the rights to modify!";
-                return RedirectToAction("Index");
+                ViewBag.message = TempData["message"].ToString();
+
+                return View("Error");
             }
         }
 
-        [Authorize(Roles = "Editor,Administrator")]
+        [Authorize(Roles = "User,Editor,Administrator")]
         [HttpPut]
-        public ActionResult Edit(int id, User requestUser)
+        public ActionResult Edit(string id, User requestUser)
         {
             try
             {
@@ -62,19 +65,40 @@ namespace FacePalm.Controllers
                     {
                         if (TryUpdateModel(user))
                         {
-                            user.FirstName = requestUser.FirstName;
-                            user.LastName = requestUser.LastName;
-                            user.Email = requestUser.Email;
-                            user.BirthDate = requestUser.BirthDate;
+                            if(!String.IsNullOrEmpty(requestUser.FirstName))
+                            {
+                                user.FirstName = requestUser.FirstName;
+                            }
+                            if (!String.IsNullOrEmpty(requestUser.LastName))
+                            {
+                                user.LastName = requestUser.LastName;
+                            }
+                            if (!String.IsNullOrEmpty(requestUser.BirthDate.ToString()))
+                            {
+                                user.BirthDate = requestUser.BirthDate;
+                            }
+                            if (!String.IsNullOrEmpty(requestUser.Education))
+                            {
+                                user.Education = requestUser.Education;
+                            }
+                            if (!String.IsNullOrEmpty(requestUser.Job))
+                            {
+                                user.Job = requestUser.Job;
+                            }
+                            user.ProfilePrivacy = requestUser.ProfilePrivacy;
+                            user.RelationshipStatus = requestUser.RelationshipStatus;
+                            user.Gender = requestUser.Gender;
                             //user.ProfilePicture = requestUser.ProfilePicture;
                             _applicationDBContext.SaveChanges();
                         }
-                        return RedirectToAction("Show");
+                        return RedirectToAction("Show/"+user.UserId);
                     }
                     else
                     {
                         TempData["message"] = "You do not have the rights to modify!";
-                        return RedirectToAction("Show");
+                        ViewBag.message = TempData["message"].ToString();
+                        
+                        return View("Error");
                     }
                 }
                 else
@@ -89,9 +113,9 @@ namespace FacePalm.Controllers
             }
         }
 
-        [Authorize(Roles = "Editor,Administrator")]
+        [Authorize(Roles = "User,Editor,Administrator")]
         [HttpDelete]
-        public ActionResult Delete(int id)
+        public ActionResult Delete(string id)
         {
             User user = _applicationDBContext.Users.Find(id);
             if (user.UserId == User.Identity.GetUserId() || User.IsInRole("Administrator"))
@@ -99,12 +123,15 @@ namespace FacePalm.Controllers
                 _applicationDBContext.Users.Remove(user);
                 _applicationDBContext.SaveChanges();
                 TempData["message"] = "The user has been removed!";
-                return RedirectToAction("Index");
+                ViewBag.message = TempData["message"].ToString();
+                return View("Index", "Home");
             }
             else
             {
                 TempData["message"] = "You do not have the rights to modify!";
-                return RedirectToAction("Index");
+                ViewBag.message = TempData["message"].ToString();
+
+                return View("Error");
             }
         }
     }

@@ -156,7 +156,7 @@ namespace FacePalm.Controllers
                 User userToDB = new User
                 {
                     UserId = user.Id,
-                    FirstName = model.FirtName,
+                    FirstName = model.FirstName,
                     LastName = model.LastName,
                     Email = model.Email,
                     BirthDate = model.BirthDate,

@@ -1,24 +1,37 @@
-﻿<div class="col-md-8">
+﻿<div class="col-md-8" style="padding-top:22px;">
     <div class="profile clearfix">
-        <div class="user clearfix">
-            <div class="avatar">
-                <img src="https://bootdey.com/img/Content/user-453533-fdadfd.png" class="img-thumbnail img-profile">
+        <div class="user clearfix row">
+            <div class="col-md-4 avatar">
+                <img src="../../Images/profilePictureDefault.png" class="img-thumbnail img-profile">
             </div>
-            <div class="userInformations"
+            <div class="col-md-4 userInformations "
                 <h1><span class="glyphicon glyphicon-asterisk"></span>@ViewBag.User.FirstName @ViewBag.User.LastName</h1>
-                <h3><span class="glyphicon glyphicon-gift"></span> <span class="title">Date of birth:</span> @ViewBag.User.BirthDate</h3>
-                <h3><span class="glyphicon glyphicon-pencil"></span> <span class="title">Education:</span>@ViewBag.User.Education</h3>
-                @if (!string.IsNullOrEmpty(ViewBag.User.Job))
+                @if(@ViewBag.User.ProfilePrivacy.ToString().ToLower() == "private" && @ViewBag.User.UserId != @ViewBag.CurrentUser)
                 {
-                <h3><span class="glyphicon glyphicon-euro"></span> <span class="title">Job:</span>@ViewBag.User.Job</h3>
+                    <p>The user's profile is private. You can send a friend request.</p>
+                    
                 }
-                <h3><span class="glyphicon glyphicon-heart-empty"></span> <span class="title">Relationship status:</span>@ViewBag.User.RelationshipStatus</h3>
+                else
+                {
+                    <h2><span class="glyphicon glyphicon-gift"></span> <span class="title">Date of birth: </span> @ViewBag.User.BirthDate.ToShortDateString()</h2>
+                    <h2><span class="glyphicon glyphicon-pencil"></span> <span class="title">Education: </span>@ViewBag.User.Education</h2>
+                    if (!string.IsNullOrEmpty(@ViewBag.User.Job))
+                    {
+                        <h2><span class="glyphicon glyphicon-euro"></span> <span class="title">Job: </span>@ViewBag.User.Job</h2>
+                    }
+                    <h2><span class="glyphicon glyphicon-heart-empty"></span> <span class="title">Relationship status: </span>@ViewBag.User.RelationshipStatus</h2>
+                }
+
             </div>
-            <h2>Martin maoth</h2>
-            <div class="actions">
+            <div class="col-md-4 actions">
                 <div class="btn-group">
-                    <button class="btn btn-default btn-sm tip btn-responsive" title="" data-original-title="Add to friends"><span class="glyphicon glyphicon-plus glyphicon glyphicon-white"></span> Friends</button>
-                    <button class="btn btn-default btn-sm tip btn-responsive" title="" data-original-title="Send message"><span class="glyphicon glyphicon-envelope glyphicon glyphicon-white"></span> Message</button>
+                    <button class="btn btn-default btn-sm tip btn-responsive" title="" data-original-title="Add to friends"><span class="glyphicon glyphicon-plus glyphicon glyphicon-white"></span><a href="/User/Friends"> Friends</a></button>
+                    <button class="btn btn-default btn-sm tip btn-responsive" title="" data-original-title="Send message"><span class="glyphicon glyphicon-envelope glyphicon glyphicon-white"></span><a href="/User/Message"> Message</a></button>
+                    @if (User.IsInRole("Administrator") || @ViewBag.User.UserId == @ViewBag.CurrentUser)
+                    {
+                        <button class="btn btn-default btn-sm tip btn-responsive" title="" data-original-title="Edit my profile"><span class="glyphicon glyphicon-pencil glyphicon glyphicon-white"></span><a href="/User/Edit/@ViewBag.User.UserId"> Edit my profile</a></button>
+                        <button class="btn btn-default btn-sm tip btn-responsive" title="" data-original-title="Delete my profile"><span class="glyphicon glyphicon-xbt glyphicon glyphicon-white"></span><a href="/User/Delete"> Delete my profile</a></button>
+                    }
                 </div>
             </div>
         </div>
