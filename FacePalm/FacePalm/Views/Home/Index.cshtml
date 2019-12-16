@@ -1,9 +1,6 @@
-﻿@{
-    @ViewBag.Title = "Home Page";
-}
-
+﻿
 <div class="jumbotron" width ="90%">
-    @if(!string.IsNullOrEmpty(ViewBag.Message))
+    @if(!string.IsNullOrEmpty(@ViewBag.Message))
     {
     <h2>@ViewBag.Message</h2>
     }
