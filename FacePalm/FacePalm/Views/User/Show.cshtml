@@ -2,7 +2,14 @@
     <div class="clearfix">
         <div class="user clearfix row">
             <div class="col-md-4 avatar">
-                <img src="../../Images/profilePictureDefault.png" class="img-thumbnail img-profile">
+                @if (String.IsNullOrEmpty(ViewBag.User.ImagePath))
+                {
+                    <img src="~/Images/profilePictureDefault.png" />
+                }
+                else
+                {
+                    <img src="@ViewBag.User.ImagePath" class="img-thumbnail img-profile">
+                }
             </div>
             <div class="col-md-4 userInformations ">
                 <h1><span class="glyphicon glyphicon-asterisk"></span>@ViewBag.User.FirstName @ViewBag.User.LastName</h1>

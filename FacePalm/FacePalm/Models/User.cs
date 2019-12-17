@@ -1,7 +1,9 @@
 ﻿using FacePalm.Enums;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Data.Entity;
 using System.Drawing;
 using System.Linq;
@@ -32,6 +34,10 @@ namespace FacePalm.Models
         //public Bitmap ProfilePicture { get; set; }
         [Required]
         public ProfilePrivacyTypes ProfilePrivacy { get; set; }
+        [DisplayName("Upload File")]
+        public string ImagePath { get; set; }
+        [NotMapped]
+        public HttpPostedFileBase ImageFile { get; set; }
         public Dictionary<string, string> FriendsIds { get; set; }
         public List<string> AlbumsIds { get; set; }
         public List<string> ConversationsIds { get; set; }

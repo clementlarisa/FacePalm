@@ -165,6 +165,8 @@ namespace FacePalm.Controllers
                     Gender = model.Gender,
                     RelationshipStatus = model.RelationshipStatus,
                     ProfilePrivacy = model.ProfilePrivacy,
+                    ImageFile = null,
+                    ImagePath = null,
                     FriendsIds = null,
                     AlbumsIds =null,
                     ConversationsIds = null,
