@@ -1,15 +1,15 @@
-﻿<div class="col-md-8" style="padding-top:22px;">
-    <div class="profile clearfix">
-        <div class="user clearfix row">
+﻿<div class="col-md-16" style="padding-top:22px;">
+    <div class="clearfix">
+         <div class="user clearfix row"> 
             <div class="col-md-4 avatar">
                 <img src="../../Images/profilePictureDefault.png" class="img-thumbnail img-profile">
             </div>
             <div class="col-md-4 userInformations ">
-                <h2></span> <span class="title"></span> @ViewBag.User.FirstName @ViewBag.User.LastName</h2>
+                <h1><span class="glyphicon glyphicon-asterisk"></span>@ViewBag.User.FirstName @ViewBag.User.LastName</h1>
                 @if(@ViewBag.User.ProfilePrivacy.ToString().ToLower() == "private" && @ViewBag.User.UserId != @ViewBag.CurrentUser)
                 {
                     <p>The user's profile is private. You can send a friend request.</p>
-                    
+
                 }
                 else
                 {
@@ -30,7 +30,11 @@
                     @if (User.IsInRole("Administrator") || @ViewBag.User.UserId == @ViewBag.CurrentUser)
                     {
                         <button class="btn btn-default btn-sm tip btn-responsive" title="" data-original-title="Edit my profile"><span class="glyphicon glyphicon-pencil glyphicon glyphicon-white"></span><a href="/User/Edit/@ViewBag.User.UserId"> Edit my profile</a></button>
-                        <button class="btn btn-default btn-sm tip btn-responsive" title="" data-original-title="Delete my profile"><span class="glyphicon glyphicon-xbt glyphicon glyphicon-white"></span><a href="/User/Delete/@ViewBag.User.UserId"> Delete my profile</a></button>
+                        <form method="post" action="/User/Delete/@ViewBag.User.UserId">
+                            @Html.HttpMethodOverride(HttpVerbs.Delete)
+                            <button type="submit">Delete my profile</button>
+                        </form>
+
                     }
                 </div>
             </div>

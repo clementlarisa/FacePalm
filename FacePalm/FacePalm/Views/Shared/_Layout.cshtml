@@ -31,12 +31,13 @@
             </div>
         </div>
     </div>
-    <div class="container body-content" style="width:80%;">
+    <div class="container body-content" style="width:100%;">
         @RenderBody()
         <hr />
-        
     </div>
-
+    <footer>
+        <p>&copy; @DateTime.Now.Year - FacePalm Application</p>
+    </footer>
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")
     @RenderSection("scripts", required: false)

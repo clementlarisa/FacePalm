@@ -187,7 +187,7 @@ namespace FacePalm.Controllers
                     var appDbContext = new ApplicationDbContext();
                     appDbContext.Users.Add(userToDB);
                     appDbContext.SaveChanges();
-                    return RedirectToAction("Index", "Home");
+                    return RedirectToAction("Show/"+user.Id, "User");
                 }
                 AddErrors(result);
             }
