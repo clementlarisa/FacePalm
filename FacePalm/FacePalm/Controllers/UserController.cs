@@ -3,6 +3,8 @@ using Microsoft.AspNet.Identity;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
+using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 
@@ -117,7 +119,7 @@ namespace FacePalm.Controllers
 
         [Authorize(Roles = "User,Editor,Administrator")]
         [HttpDelete]
-        public ActionResult Delete(string id)
+        public async Task<ActionResult> Delete(string id)
         {
             User user = _applicationDBContext.Users.Find(id);
             if (user.UserId == User.Identity.GetUserId() || User.IsInRole("Administrator"))
@@ -131,19 +133,54 @@ namespace FacePalm.Controllers
                 Conversation
                 _applicationDBContext.Conversations.Remove
                 */
+                
+                if (id == null)
+                {
+                    return View("Error");
+                }
+
                 _applicationDBContext.Users.Remove(user);
                 _applicationDBContext.SaveChanges();
                 TempData["message"] = "The user has been successfully removed!";
                 ViewBag.message = TempData["message"].ToString();
-                return View("Index", "Home");
+                /*
+                var _user = await UserManager.FindByIdAsync(id);
+
+                //List Logins associated with user
+                var logins = _user.Logins;
+
+                //Gets list of Roles associated with current user
+                var rolesForUser = await UserManager.GetRolesAsync(id);
+
+                using (var transaction = context.Database.BeginTransaction())
+                {
+                    foreach (var login in logins.ToList())
+                    {
+                        await UserManager.RemoveLoginAsync(login.UserId, new UserLoginInfo(login.LoginProvider, login.ProviderKey));
+                    }
+
+                    if (rolesForUser.Count() > 0)
+                    {
+                        foreach (var item in rolesForUser.ToList())
+                        {
+                            // item should be the name of the role
+                            var result = await UserManager.RemoveFromRoleAsync(_user.Id, item);
+                        }
+                    }
+
+                    //Delete User
+                    await UserManager.DeleteAsync(user);
+                }
+                */
+                return View("../Home/Index");
             }
             else
             {
-                TempData["message"] = "You do not have the rights to modify!";
+                TempData["message"] = "You do not have permission to delete this profile!";
                 ViewBag.message = TempData["message"].ToString();
-
                 return View("Error");
             }
         }
+           
     }
 }
