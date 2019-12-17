@@ -1,12 +1,12 @@
 ﻿<div class="col-md-16" style="padding-top:22px;">
     <div class="clearfix">
-         <div class="user clearfix row"> 
+        <div class="user clearfix row">
             <div class="col-md-4 avatar">
                 <img src="../../Images/profilePictureDefault.png" class="img-thumbnail img-profile">
             </div>
             <div class="col-md-4 userInformations ">
                 <h1><span class="glyphicon glyphicon-asterisk"></span>@ViewBag.User.FirstName @ViewBag.User.LastName</h1>
-                @if(@ViewBag.User.ProfilePrivacy.ToString().ToLower() == "private" && @ViewBag.User.UserId != @ViewBag.CurrentUser)
+                @if (@ViewBag.User.ProfilePrivacy.ToString().ToLower() == "private" && @ViewBag.User.UserId != @ViewBag.CurrentUser)
 
                 {
                     <p>The user's profile is private. You can send a friend request.</p>
@@ -39,29 +39,31 @@
                     }
                 </div>
             </div>
-            <div class="col-md-4 posts ">
-                <h3> @ViewBag.User.FirstName's posts</h3>
-                @if (@ViewBag.User.UserId == @ViewBag.CurrentUser)
+
+        </div>
+
+        <div class="row posts ">
+            <h3> @ViewBag.User.FirstName's posts</h3>
+            @if (@ViewBag.User.UserId == @ViewBag.CurrentUser)
+            {
+                <br />
+                <a class="btn btn-info" href="/Post/New">Create a post</a>
+                <br /><br />
+            }
+
+            @* TODO: @clementlarisa Should be displayed if current user is friends with user *@
+            @if (@ViewBag.User.ProfilePrivacy.ToString().ToLower() == "public" || @ViewBag.User.UserId == @ViewBag.CurrentUser)
+            {
+
+                foreach (FacePalm.Models.Post post in ViewBag.Posts)
                 {
+                    <div class="panel panel-default">
+                        @Html.Partial("PostInfo", post)
+                    </div>
                     <br />
-                    <a class="btn btn-info" href="/Post/New">Create a post</a>
-                    <br /><br />
                 }
-                
-                @* TODO: @clementlarisa Should be displayed if current user is friends with user *@
-                @if (@ViewBag.User.ProfilePrivacy.ToString().ToLower() == "public" || @ViewBag.User.UserId == @ViewBag.CurrentUser)
-                {
+            }
 
-                    foreach (FacePalm.Models.Post post in ViewBag.Posts)
-                    {
-                        <div class="panel panel-default">
-                            @Html.Partial("PostInfo", post)
-                        </div>
-                        <br />
-                    }           
-                }
-
-            </div>
         </div>
     </div>
 </div>

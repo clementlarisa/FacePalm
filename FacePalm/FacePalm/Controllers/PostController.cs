@@ -61,7 +61,7 @@ namespace FacePalm.Controllers
                 db.Posts.Add(post);
                 db.SaveChanges();
                 ModelState.Clear();
-                return RedirectToAction("Index");
+                return RedirectToAction("../User/Show/" + post.UserId);
             }
 
             return View(post);
