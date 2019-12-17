@@ -1,10 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Data.Entity;
 using System.Drawing;
 using System.Linq;
 using System.Web;
+using System.ComponentModel.DataAnnotations.Schema;
+
 
 namespace FacePalm.Models
 {
@@ -14,9 +17,12 @@ namespace FacePalm.Models
         public string PostId { get; set; }
         [Required]
         public string UserId { get; set; }
-        public string Content { get; set; }
-        //For further infos: https://docs.microsoft.com/en-us/dotnet/api/system.drawing.bitmap?view=netframework-4.8
-        //public Bitmap Image { get; set; } 
+        public string ReadableContent { get; set; }
+        [DisplayName("Upload File")]
+        public string ImagePath { get; set; }
+
+        [NotMapped]
+        public HttpPostedFileBase ImageFile { get; set;  }
         public DateTime Date { get; set; }
     }
 }

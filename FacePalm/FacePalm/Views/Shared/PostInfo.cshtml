@@ -1,0 +1,10 @@
+﻿@model FacePalm.Models.Post
+
+<div>
+    <h4>@Html.DisplayFor(model => model.Date)</h4>
+    <hr />
+    <span><p> @Html.DisplayFor(model => model.ReadableContent) </p></span>
+    <dd>
+        <img src="@Url.Content(Model.ImagePath)" width = "250", height = "400"/>
+    </dd>
+</div>

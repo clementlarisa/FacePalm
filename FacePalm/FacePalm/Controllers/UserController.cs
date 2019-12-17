@@ -28,8 +28,10 @@ namespace FacePalm.Controllers
         public ActionResult Show(string id)
         {
             User user = _applicationDBContext.Users.Find(id);
+            var posts = _applicationDBContext.Posts.Where(p => p.UserId == id);
             ViewBag.User = user;
             ViewBag.CurrentUser = User.Identity.GetUserId();
+            ViewBag.Posts = posts;
             return View();
         }
 
