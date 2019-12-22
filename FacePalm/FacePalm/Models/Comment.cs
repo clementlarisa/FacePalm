@@ -15,7 +15,7 @@ namespace FacePalm.Models
         [Required]
         public string UserId { get; set; }
         [Required]
-        public string PostId { get; set; }
+        public int PostId { get; set; }
         [Required]
         public string Content { get; set; }
         public DateTime Date { get; set; }
