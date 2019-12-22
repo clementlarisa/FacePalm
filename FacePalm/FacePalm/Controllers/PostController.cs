@@ -43,6 +43,7 @@ namespace FacePalm.Controllers
 
             ViewBag.esteAdmin = User.IsInRole("Administrator");
             ViewBag.utilizatorCurent = User.Identity.GetUserId();
+            ViewBag.numeCreator = db.Users.Find(post.UserId).FirstName;
             return View(post);
         }
 
@@ -109,19 +110,21 @@ namespace FacePalm.Controllers
             return View(post);
         }
 
+        [HttpDelete]
+        [Authorize(Roles = "Editor,Administrator")]
         // GET: Post/Delete/5
         public ActionResult Delete(int id)
         {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
             Post post = db.Posts.Find(id);
             if (post == null)
             {
                 return HttpNotFound();
             }
-            return View(post);
+
+            db.Posts.Remove(post);
+            db.SaveChanges();
+            TempData["message"] = "Post has been successfully deleted!";
+            return RedirectToAction("Index");
         }
     }
 }

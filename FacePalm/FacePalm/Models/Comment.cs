@@ -11,11 +11,11 @@ namespace FacePalm.Models
     {
 
         [Key]
-        public string CommentId { get; set; }
+        public int CommentId { get; set; }
         [Required]
         public string UserId { get; set; }
         [Required]
-        public int PostId { get; set; }
+        public virtual Post Post { get; set; }
         [Required]
         public string Content { get; set; }
         public DateTime Date { get; set; }
