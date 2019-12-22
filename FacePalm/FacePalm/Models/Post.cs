@@ -25,5 +25,7 @@ namespace FacePalm.Models
         [NotMapped]
         public HttpPostedFileBase ImageFile { get; set;  }
         public DateTime Date { get; set; }
+
+        public virtual ICollection<Comment> Comments { get; set; }
     }
 }
