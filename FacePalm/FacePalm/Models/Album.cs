@@ -16,6 +16,6 @@ namespace FacePalm.Models
         //public List<Bitmap> Images { get; set; } 
         public string UserId { get; set; }
         public List<string> CommentsIds { get; set; }
-        public List<string> PostsIds { get; set; }
+        public List<int> PostsIds { get; set; }
     }
 }

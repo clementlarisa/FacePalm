@@ -14,11 +14,12 @@ namespace FacePalm.Models
     public class Post
     {
         [Key]
-        public string PostId { get; set; }
+        public int PostId { get; set; }
         [Required]
         public string UserId { get; set; }
+        [DisplayName("Content")]
         public string ReadableContent { get; set; }
-        [DisplayName("Upload File")]
+        [DisplayName("Upload Photo")]
         public string ImagePath { get; set; }
 
         [NotMapped]

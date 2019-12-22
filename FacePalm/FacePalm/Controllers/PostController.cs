@@ -8,6 +8,7 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using FacePalm.Models;
+using Microsoft.AspNet.Identity;
 
 namespace FacePalm.Controllers
 {
@@ -23,7 +24,7 @@ namespace FacePalm.Controllers
         }
 
         // GET: Post/Show/5
-        public ActionResult Show(string id)
+        public ActionResult Show(int id)
         {
             if (id == null)
             {
@@ -34,6 +35,14 @@ namespace FacePalm.Controllers
             {
                 return HttpNotFound();
             }
+            ViewBag.afisareButoane = false;
+            if (User.IsInRole("Editor") || User.IsInRole("Administrator"))
+            {
+                ViewBag.afisareButoane = true;
+            }
+
+            ViewBag.esteAdmin = User.IsInRole("Administrator");
+            ViewBag.utilizatorCurent = User.Identity.GetUserId();
             return View(post);
         }
 
@@ -41,7 +50,11 @@ namespace FacePalm.Controllers
         [HttpGet]
         public ActionResult New()
         {
-            return View();
+            Post post = new Post();
+
+            post.UserId = User.Identity.GetUserId();
+
+            return View(post);
         }
 
         // POST: Post/New
@@ -68,7 +81,7 @@ namespace FacePalm.Controllers
         }
 
         // GET: Post/Edit/5
-        public ActionResult Edit(string id)
+        public ActionResult Edit(int id)
         {
             if (id == null)
             {
@@ -97,7 +110,7 @@ namespace FacePalm.Controllers
         }
 
         // GET: Post/Delete/5
-        public ActionResult Delete(string id)
+        public ActionResult Delete(int id)
         {
             if (id == null)
             {

@@ -12,7 +12,7 @@ namespace FacePalm.Models
         [Key]
         public string GroupId { get; set; }
         public List<string> UsersIds { get; set; }
-        public List<string> PostsIds { get; set; }
+        public List<int> PostsIds { get; set; }
     }
     
 }
