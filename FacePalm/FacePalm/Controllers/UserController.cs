@@ -26,9 +26,11 @@ namespace FacePalm.Controllers
         {
             User user = _applicationDBContext.Users.Find(id);
             var posts = _applicationDBContext.Posts.Where(p => p.UserId == id);
+            var albums = _applicationDBContext.Albums.Where(a => a.UserId == id);
             ViewBag.User = user;
             ViewBag.CurrentUser = User.Identity.GetUserId();
             ViewBag.Posts = posts;
+            ViewBag.Albums = albums;
             return View();
         }
 
