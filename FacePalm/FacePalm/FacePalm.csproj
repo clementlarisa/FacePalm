@@ -269,6 +269,7 @@
     <Content Include="Views\Album\Index.cshtml" />
     <Content Include="Views\Album\Show.cshtml" />
     <Content Include="Views\Album\New.cshtml" />
+    <Content Include="Views\Album\Edit.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Images\" />
