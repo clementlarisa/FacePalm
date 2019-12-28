@@ -29,7 +29,7 @@ namespace FacePalm.Controllers
             var albums = _applicationDBContext.Albums.Where(a => a.UserId == id);
             ViewBag.User = user;
             ViewBag.CurrentUser = User.Identity.GetUserId();
-            ViewBag.Posts = posts;
+            ViewBag.Posts = posts.OrderByDescending(x => x.Date);
             ViewBag.Albums = albums;
             return View();
         }

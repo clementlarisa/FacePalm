@@ -1,29 +1,30 @@
 ﻿@model FacePalm.Models.Album
 
     <h2>@Model.AlbumTitle</h2>
+    <div class="album py-5 bg-light">
+        <div class="container">
+            <div class="row">
+                @foreach (FacePalm.Models.Post post in ViewBag.Posts)
+                {
+                <div class="col-md-4">
+                    @Html.Partial("PostInfo", post)
+                </div>
+                    <br />
+                }
+                </div>
+            </div>
+        </div>
 
-@foreach (FacePalm.Models.Post post in ViewBag.Posts)
-{
-    <div class="panel panel-default">
-        @Html.Partial("PostInfo", post)
+    <div class="btn-group-sm" role="group">
+        <a class="btn btn-info" href="/Album/Index/">Back to albums</a>
+
+        @if (ViewBag.afisareButoane == true && Model.UserId == ViewBag.utilizatorCurent || ViewBag.esteAdmin)
+        {
+            using (Html.BeginForm(actionName: "Delete", controllerName: "Album", routeValues: new { id = @Model.AlbumId }))
+            {
+                @Html.HttpMethodOverride(HttpVerbs.Delete) 
+                <button class="btn btn-danger btn-sm" type="submit">Delete album</button>
+            }
+        }
     </div>
-    <br />
-}
-@if (ViewBag.afisareButoane == true && Model.UserId == ViewBag.utilizatorCurent || ViewBag.esteAdmin)
-{
-
-    using (Html.BeginForm(actionName: "Delete", controllerName: "Album", routeValues: new { id = @Model.AlbumId }))
-    {
-
-        @Html.HttpMethodOverride(HttpVerbs.Delete)
-
-        <button class="btn btn-success" type="submit">Delete album</button>
-    }
-}
-<br />
-<a class="btn btn-success" href="/Album/Index/">Back to my albums</a>
-
-<br />
-<hr />
-<br />
 

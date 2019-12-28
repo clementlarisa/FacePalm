@@ -32,7 +32,7 @@
 
             </div>
             <div class="col-md-4 actions">
-                <div class="btn-group">
+                <div class="btn-group btn-group-vertical">
                     <button class="btn btn-default btn-sm tip btn-responsive" title="" data-original-title="Add to friends"><span class="glyphicon glyphicon-plus glyphicon glyphicon-white"></span><a href="/User/Friends"> Friends</a></button>
                     <button class="btn btn-default btn-sm tip btn-responsive" title="" data-original-title="Send message"><span class="glyphicon glyphicon-envelope glyphicon glyphicon-white"></span><a href="/User/Message"> Message</a></button>
                     @if (User.IsInRole("Administrator") || @ViewBag.User.UserId == @ViewBag.CurrentUser)
@@ -40,7 +40,7 @@
                         <button class="btn btn-default btn-sm tip btn-responsive" title="" data-original-title="Edit my profile"><span class="glyphicon glyphicon-pencil glyphicon glyphicon-white"></span><a href="/User/Edit/@ViewBag.User.UserId"> Edit my profile</a></button>
                         <form method="post" action="/User/Delete/@ViewBag.User.UserId">
                             @Html.HttpMethodOverride(HttpVerbs.Delete)
-                            <button type="submit">Delete my profile</button>
+                            <button class="btn btn-danger btn-sm tip btn-responsive" type="submit">Delete my profile</button>
                         </form>
 
                     }
@@ -53,36 +53,39 @@
         </div>
 
         <div class="container">
-            <h2>See @ViewBag.User.FirstName's albums</h2>
+            <h3>See @ViewBag.User.FirstName's albums</h3>
             <ul class="list-group">
                 @foreach (FacePalm.Models.Album al in ViewBag.Albums)
                 {
-                    <li class="list-group-item"><a class="btn btn-default" href="/Album/Show/@al.AlbumId">@al.AlbumTitle</a></li>
+                    <li class="list-group-item"><a class="btn btn-link" href="/Album/Show/@al.AlbumId">@al.AlbumTitle</a></li>
                 }
             </ul>
-        </div>
 
-        <div class="row posts ">
-            @* TODO: @clementlarisa Should be displayed if current user is friends with user *@
-            @if (@ViewBag.User.ProfilePrivacy.ToString().ToLower() == "public" || @ViewBag.User.UserId == @ViewBag.CurrentUser)
-            {
-                <h3> @ViewBag.User.FirstName's posts</h3>
-                if (@ViewBag.User.UserId == @ViewBag.CurrentUser)
+            <div class="album py-5 bg-light">
+                @* TODO: @clementlarisa Should be displayed if current user is friends with user *@
+                @if (@ViewBag.User.ProfilePrivacy.ToString().ToLower() == "public" || @ViewBag.User.UserId == @ViewBag.CurrentUser)
                 {
-                    <br />
-                    <a class="btn btn-info" href="/Post/New">Create a post</a>
-                    <br /><br />
+                    <h3> @ViewBag.User.FirstName's posts</h3>
+                    if (@ViewBag.User.UserId == @ViewBag.CurrentUser)
+                    {
+                        <br />
+                        <a class="btn btn-success" href="/Post/New">Create a post</a>
+                        <br /><br />
+                    }
+                    <div class="container">
+            <div class="row">
+                @foreach (FacePalm.Models.Post post in ViewBag.Posts)
+                {
+                <div class="col-md-4">
+                    @Html.Partial("PostInfo", post)
+                </div>
+                <br />
+                }
+            </div>
+                   </div> 
                 }
 
-                foreach (FacePalm.Models.Post post in ViewBag.Posts)
-                {
-                    <div class="panel panel-default">
-                        @Html.Partial("PostInfo", post)
-                    </div>
-                    <br />
-                }
-            }
-
-        </div>
+            </div>
+        </div>        
     </div>
 </div>

@@ -3,7 +3,9 @@
     padding-bottom: 20px;
     margin-top: 20px;
 }
-
+.text-muted {
+    color: #6c757d !important;
+}
 
 /* Set padding to keep content from hitting the edges */
 .body-content {
