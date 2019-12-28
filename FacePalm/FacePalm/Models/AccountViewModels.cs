@@ -93,7 +93,7 @@ namespace FacePalm.Models
         [Required]
         [Display(Name = "Education")]
         public string Education { get; set; }
-        
+
         [Display(Name = "Job")]
         public string Job { get; set; }
 

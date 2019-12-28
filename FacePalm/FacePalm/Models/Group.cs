@@ -1,9 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Data.Entity;
-using System.Linq;
-using System.Web;
 
 namespace FacePalm.Models
 {
@@ -14,5 +10,5 @@ namespace FacePalm.Models
         public List<string> UsersIds { get; set; }
         public List<int> PostsIds { get; set; }
     }
-    
+
 }

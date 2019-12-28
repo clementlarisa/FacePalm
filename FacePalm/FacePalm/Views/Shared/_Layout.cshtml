@@ -23,8 +23,9 @@
                 <ul class="nav navbar-nav">
                     @if (User.Identity.IsAuthenticated)
                     {
-                        <li>@Html.ActionLink("Newsfeed", "Index", "User")</li>
-                        <li>@Html.ActionLink("Profile", "Show/" + User.Identity.GetUserId(), "User")</li>
+                        <li>@Html.ActionLink("My Profile", "Show/" + User.Identity.GetUserId(), "User")</li>
+                        <li>@Html.ActionLink("Edit Profile", "Edit/" + User.Identity.GetUserId(), "User")</li>
+                        <li>@Html.ActionLink("My Photo Albums", "Index/", "Album")</li>
                     }
                 </ul>
                 @Html.Partial("_LoginPartial")

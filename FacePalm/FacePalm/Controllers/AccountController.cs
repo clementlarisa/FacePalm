@@ -6,7 +6,6 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
-using static FacePalm.Enums.FacePalmEnums;
 
 namespace FacePalm.Controllers
 {
@@ -79,7 +78,7 @@ namespace FacePalm.Controllers
                 case SignInStatus.Success:
                     var appDbContext = new ApplicationDbContext();
                     var user = appDbContext.Users.FirstOrDefault(a => a.Email == model.Email);
-                    return RedirectToLocal("/User/Show/"+user.UserId);
+                    return RedirectToLocal("/User/Show/" + user.UserId);
                 case SignInStatus.LockedOut:
                     return View("Lockout");
                 case SignInStatus.RequiresVerification:
@@ -168,13 +167,13 @@ namespace FacePalm.Controllers
                     ImageFile = null,
                     ImagePath = null,
                     FriendsIds = null,
-                    AlbumsIds =null,
+                    AlbumsIds = null,
                     ConversationsIds = null,
                     GroupsIds = null,
                     PostsIds = null,
                     CommentsIds = null
                 };
-                
+
                 if (result.Succeeded)
                 {
                     await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
@@ -189,7 +188,7 @@ namespace FacePalm.Controllers
                     var appDbContext = new ApplicationDbContext();
                     appDbContext.Users.Add(userToDB);
                     appDbContext.SaveChanges();
-                    return RedirectToAction("Show/"+user.Id, "User");
+                    return RedirectToAction("Show/" + user.Id, "User");
                 }
                 AddErrors(result);
             }
