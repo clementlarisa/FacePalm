@@ -1,0 +1,29 @@
+﻿
+@{
+    ViewBag.Title = "My Photo Albums";
+}
+
+<h2>@ViewBag.Title</h2>
+<br />
+
+@if (TempData.ContainsKey("message"))
+{
+    <h3 class="alert alert-info" role="alert">@ViewBag.message</h3>
+}
+
+@foreach (var album in ViewBag.Albums)
+{
+    @Html.Label("AlbumTitle", "Album Title")
+    <p>@album.AlbumTitle</p>
+    <a class="btn btn-success" href="/Category/Show/@album.AlbumId">See album</a>
+    <a class="btn btn-success" href="/Category/Edit/@album.AlbumId">Edit album</a>
+    <br />
+    <hr />
+    <br />
+}
+<br />
+<a class="btn btn-info" href="/Category/New">Create a new photo album</a>
+<br />
+<br />
+<br />
+
