@@ -79,5 +79,48 @@ namespace FacePalm.Controllers
             }
         }
 
+        public ActionResult Edit(int id)
+        {
+            Album al = db.Albums.Find(id);
+            return View(al);
+        }
+
+        [HttpPut]
+        public ActionResult Edit(int id, Album requestAlbum)
+        {
+            try
+            {
+                if (ModelState.IsValid)
+                {
+                    Album al = db.Albums.Find(id);
+                    if (TryUpdateModel(al))
+                    {
+                        al.AlbumTitle = requestAlbum.AlbumTitle;
+                        TempData["message"] = "Album title has been changed!";
+                        db.SaveChanges();
+                    }
+                    return RedirectToAction("Index");
+                }
+                else
+                {
+                    return View(requestAlbum);
+                }
+            }
+            catch (Exception e)
+            {
+                return View(requestAlbum);
+            }
+        }
+
+        [HttpDelete]
+        public ActionResult Delete(int id)
+        {
+            Album al = db.Albums.Find(id);
+            db.Albums.Remove(al);
+            TempData["message"] = "Album was successfully deleted!";
+            db.SaveChanges();
+            return RedirectToAction("Index");
+        }
+
     }
 }
