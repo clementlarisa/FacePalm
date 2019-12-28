@@ -34,7 +34,7 @@ namespace FacePalm.Controllers
         {
             Album album = db.Albums.Find(id);
             var posts = album.Post;
-            ViewBag.Posts = posts;
+            ViewBag.Posts = posts.OrderByDescending(x => x.Date); ;
             ViewBag.afisareButoane = false;
             if (User.Identity.GetUserId() == album.UserId || User.IsInRole("Administrator"))
             {

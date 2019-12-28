@@ -22,7 +22,7 @@ namespace FacePalm.Controllers
             {
                 ViewBag.message = TempData["message"].ToString();
             }
-            return View(db.Posts.ToList());
+            return View(db.Posts.ToList().OrderByDescending(x => x.Date));
         }
 
         [Authorize(Roles = "User,Editor,Administrator")]
