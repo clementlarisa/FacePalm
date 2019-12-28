@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Data.Entity;
-using System.Linq;
-using System.Web;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace FacePalm.Models
 {
@@ -18,5 +13,5 @@ namespace FacePalm.Models
         [Required]
         public string Content { get; set; }
     }
-    
+
 }

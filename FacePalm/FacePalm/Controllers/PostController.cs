@@ -1,14 +1,12 @@
-﻿using System;
+﻿using FacePalm.Models;
+using Microsoft.AspNet.Identity;
+using System;
 using System.Collections.Generic;
-using System.Data;
 using System.Data.Entity;
 using System.IO;
 using System.Linq;
 using System.Net;
-using System.Web;
 using System.Web.Mvc;
-using FacePalm.Models;
-using Microsoft.AspNet.Identity;
 
 namespace FacePalm.Controllers
 {
@@ -20,9 +18,14 @@ namespace FacePalm.Controllers
         [Authorize(Roles = "Administrator")]
         public ActionResult Index()
         {
+            if (TempData.ContainsKey("message"))
+            {
+                ViewBag.message = TempData["message"].ToString();
+            }
             return View(db.Posts.ToList());
         }
 
+        [Authorize(Roles = "User,Editor,Administrator")]
         // GET: Post/Show/5
         public ActionResult Show(int id)
         {
@@ -52,6 +55,7 @@ namespace FacePalm.Controllers
         public ActionResult New()
         {
             Post post = new Post();
+            post.Albums = GetAllAlbums();
 
             post.UserId = User.Identity.GetUserId();
 
@@ -69,6 +73,7 @@ namespace FacePalm.Controllers
             post.ImagePath = "~/Images/" + fileName;
             fileName = Path.Combine(Server.MapPath("~/Images/"), fileName);
             post.ImageFile.SaveAs(fileName);
+            post.Albums = GetAllAlbums();
 
             if (ModelState.IsValid)
             {
@@ -99,7 +104,7 @@ namespace FacePalm.Controllers
         // POST: Post/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "PostId,UserId,ReadableContent,Date")] Post post)
+        public ActionResult Edit([Bind(Include = "PostId,UserId,ImageDescription,Date")] Post post)
         {
             if (ModelState.IsValid)
             {
@@ -125,6 +130,32 @@ namespace FacePalm.Controllers
             db.SaveChanges();
             TempData["message"] = "Post has been successfully deleted!";
             return RedirectToAction("Index");
+        }
+
+        [NonAction]
+        public IEnumerable<SelectListItem> GetAllAlbums()
+        {
+            // generam o lista goala
+            var selectList = new List<SelectListItem>();
+            var userId = User.Identity.GetUserId();
+            // Extragem toate albumele create de utilizator
+            var albums = from al in db.Albums
+                         where al.UserId == userId
+                         select al;
+
+            // iteram prin albume
+            foreach (var album in albums)
+            {
+                // Adaugam in lista elementele necesare pentru dropdown
+                selectList.Add(new SelectListItem
+                {
+                    Value = album.AlbumId.ToString(),
+                    Text = album.AlbumTitle.ToString()
+                });
+            }
+
+            // returnam lista de albume
+            return selectList;
         }
     }
 }

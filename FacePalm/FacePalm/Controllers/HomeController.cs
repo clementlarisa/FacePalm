@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNet.Identity;
-using System.Web.Mvc;
+﻿using System.Web.Mvc;
 
 namespace FacePalm.Controllers
 {
@@ -9,6 +8,6 @@ namespace FacePalm.Controllers
         {
             return View();
         }
-        
+
     }
 }

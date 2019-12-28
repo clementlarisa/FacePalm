@@ -1,12 +1,8 @@
-﻿using FacePalm.Enums;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Data.Entity;
-using System.Drawing;
-using System.Linq;
 using System.Web;
 using static FacePalm.Enums.FacePalmEnums;
 
@@ -45,5 +41,5 @@ namespace FacePalm.Models
         public List<string> PostsIds { get; set; }
         public List<string> CommentsIds { get; set; }
     }
-    
+
 }

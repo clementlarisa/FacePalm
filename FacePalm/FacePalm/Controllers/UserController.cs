@@ -1,11 +1,8 @@
 ﻿using FacePalm.Models;
 using Microsoft.AspNet.Identity;
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Net;
 using System.Threading.Tasks;
-using System.Web;
 using System.Web.Mvc;
 
 namespace FacePalm.Controllers
@@ -42,7 +39,7 @@ namespace FacePalm.Controllers
             ViewBag.User = user;
             if (user.UserId == User.Identity.GetUserId() || User.IsInRole("Administrator"))
             {
-                
+
                 return View(user);
             }
             else
@@ -69,7 +66,7 @@ namespace FacePalm.Controllers
                     {
                         if (TryUpdateModel(user))
                         {
-                            if(!String.IsNullOrEmpty(requestUser.FirstName))
+                            if (!String.IsNullOrEmpty(requestUser.FirstName))
                             {
                                 user.FirstName = requestUser.FirstName;
                             }
@@ -95,13 +92,13 @@ namespace FacePalm.Controllers
                             //user.ProfilePicture = requestUser.ProfilePicture;
                             _applicationDBContext.SaveChanges();
                         }
-                        return RedirectToAction("Show/"+user.UserId);
+                        return RedirectToAction("Show/" + user.UserId);
                     }
                     else
                     {
                         TempData["message"] = "You do not have the rights to modify!";
                         ViewBag.message = TempData["message"].ToString();
-                        
+
                         return View("Error");
                     }
                 }
@@ -111,7 +108,7 @@ namespace FacePalm.Controllers
                     ViewBag.message = TempData["message"].ToString();
                     return View("Error");
                 }
-                
+
             }
             catch (Exception e)
             {
@@ -135,7 +132,7 @@ namespace FacePalm.Controllers
                 Conversation
                 _applicationDBContext.Conversations.Remove
                 */
-                
+
                 if (id == null)
                 {
                     return View("Error");
@@ -183,6 +180,6 @@ namespace FacePalm.Controllers
                 return View("Error");
             }
         }
-           
+
     }
 }
