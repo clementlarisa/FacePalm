@@ -1,0 +1,24 @@
+﻿@model FacePalm.Models.Album
+@{
+    ViewBag.Title = "Create a new photo album";
+}
+
+
+
+<h2>@ViewBag.Title</h2>
+
+@using (Html.BeginForm(actionName: "New", controllerName: "Album"))
+{
+    @Html.ValidationSummary(false, "", new { @class = "text-danger" })
+
+<div class="form-group">
+    @Html.LabelFor(model => model.AlbumTitle, htmlAttributes: new { @class = "control-label col-md-2" })
+    <div class="col-md-10">
+        @Html.EditorFor(model => model.AlbumTitle, new { htmlAttributes = new { @class = "form-control" } })
+        @Html.ValidationMessageFor(model => model.AlbumTitle, "", new { @class = "text-danger" })
+    </div>
+</div>
+
+    <button class="btn btn-success" type="submit">Create Album</button>
+}
+
