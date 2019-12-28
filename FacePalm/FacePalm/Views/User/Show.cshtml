@@ -48,19 +48,31 @@
             </div>
 
         </div>
+        <div class="row">
+
+        </div>
+
+        <div class="container">
+            <h2>See @ViewBag.User.FirstName's albums</h2>
+            <ul class="list-group">
+                @foreach (FacePalm.Models.Album al in ViewBag.Albums)
+                {
+                    <li class="list-group-item"><a class="btn btn-default" href="/Album/Show/@al.AlbumId">@al.AlbumTitle</a></li>
+                }
+            </ul>
+        </div>
 
         <div class="row posts ">
-            <h3> @ViewBag.User.FirstName's posts</h3>
-            @if (@ViewBag.User.UserId == @ViewBag.CurrentUser)
-            {
-                <br />
-                <a class="btn btn-info" href="/Post/New">Create a post</a>
-                <br /><br />
-            }
-
             @* TODO: @clementlarisa Should be displayed if current user is friends with user *@
             @if (@ViewBag.User.ProfilePrivacy.ToString().ToLower() == "public" || @ViewBag.User.UserId == @ViewBag.CurrentUser)
             {
+                <h3> @ViewBag.User.FirstName's posts</h3>
+                if (@ViewBag.User.UserId == @ViewBag.CurrentUser)
+                {
+                    <br />
+                    <a class="btn btn-info" href="/Post/New">Create a post</a>
+                    <br /><br />
+                }
 
                 foreach (FacePalm.Models.Post post in ViewBag.Posts)
                 {
