@@ -1,0 +1,29 @@
+﻿@model FacePalm.Models.Album
+
+    <h2>@Model.AlbumTitle</h2>
+
+@foreach (FacePalm.Models.Post post in ViewBag.Posts)
+{
+    <div class="panel panel-default">
+        @Html.Partial("PostInfo", post)
+    </div>
+    <br />
+}
+@if (ViewBag.afisareButoane == true && Model.UserId == ViewBag.utilizatorCurent || ViewBag.esteAdmin)
+{
+
+    using (Html.BeginForm(actionName: "Delete", controllerName: "Album", routeValues: new { id = @Model.AlbumId }))
+    {
+
+        @Html.HttpMethodOverride(HttpVerbs.Delete)
+
+        <button class="btn btn-success" type="submit">Delete album</button>
+    }
+}
+<br />
+<a class="btn btn-success" href="/Album/Index/">Back to my albums</a>
+
+<br />
+<hr />
+<br />
+
