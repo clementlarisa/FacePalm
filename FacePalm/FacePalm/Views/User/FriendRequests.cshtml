@@ -1,0 +1,89 @@
+﻿
+<div class="container" style="opacity: 0.3;">
+    @if(@ViewBag.FriendRequests == null)
+    {
+        <p>You don't have any friend requests at the moment. Have a nice day! :)</p>
+    }
+    else
+    {
+        <ul>
+            @foreach(FacePalm.Models.User fr in ViewBag.FriendRequests)
+            {
+            <li id="@fr.UserId"class="list-group-item">
+                <img src="@fr.ImagePath" class="img-thumbnail img-profile">
+                <p>@fr.FirstName @fr.LastName</p>
+                <button style="color:black"  class="acceptFriendRequest btn btn-default btn-sm tip btn-responsive" title="" data-original-title="Accept"><span class="glyphicon glyphicon-plus glyphicon glyphicon-blackboard"></span>Accept</button>
+                <button style="color:black"  class="declineFriendRequest btn btn-default btn-sm tip btn-responsive" title="" data-original-title="Decline"><span class="glyphicon glyphicon-plus glyphicon glyphicon-blackboard"></span>Decline</button>
+            </li>
+            }
+
+        </ul>
+    }
+</div>
+
+<script type="text/javascript">
+
+   $(document).ready(function() {
+       $(".acceptFriendRequest").click(function() {
+
+           var friendRequestData = {
+               FromUserId: $(this).parent().attr('id'),
+               ToUserId: '@ViewBag.CurrentUser'
+           };
+           var buttonToHide = $(this);
+           var nextButtonToHide = buttonToHide.next();
+           $.ajax({
+               type: 'POST',
+               dataType: 'json',
+               data: JSON.stringify({ "friendRequestData": friendRequestData }),
+               url: '/User/AcceptFriendRequest',
+               cache: false,
+               contentType: 'application/json; charset=utf-8',
+               success: function (serverAnswer) {
+                   if (serverAnswer.success) {
+                       //do something, remove button, add label "Friend request already sent"
+
+                       buttonToHide.hide();
+                       nextButtonToHide.hide();
+                       
+                   }
+                   else
+                   {
+                       alert("The request couldn't be processed, please try again :(")
+                   }
+               },
+               error: function () {
+                   alert("There is something bad.");
+               }
+           });
+
+        });
+    });
+
+    $(document).ready(function() {
+       $(".declineFriendRequest").click(function() {
+           
+           $.ajax({
+               type: 'POST',
+               dataType: 'json',
+               cache: false,
+               contentType: 'application/json; charset=utf-8',
+               success: function (serverAnswer) {
+                   if (serverAnswer.success) {
+                       $(this).hide();
+                       $(this).prev().hide();
+                   }
+                   else
+                   {
+                       alert("The request couldn't be processed, please try again :(")
+                   }
+               },
+               error: function () {
+                   alert("error");
+               }
+           });
+
+        });
+    });
+
+</script>

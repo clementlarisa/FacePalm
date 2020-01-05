@@ -2,7 +2,7 @@
     <div class="clearfix">
         <div class="user clearfix row">
             <div class="col-md-4 avatar">
-                @if (String.IsNullOrEmpty(ViewBag.User.ImagePath))
+                @if (!string.IsNullOrEmpty(ViewBag.User.ImagePath))
                 {
                     <img src="~/Images/profilePictureDefault.png" />
                 }
@@ -13,10 +13,17 @@
             </div>
             <div class="col-md-4 userInformations ">
                 <h1><span class="glyphicon glyphicon-asterisk"></span>@ViewBag.User.FirstName @ViewBag.User.LastName</h1>
-                @if (@ViewBag.User.ProfilePrivacy.ToString().ToLower() == "private" && @ViewBag.User.UserId != @ViewBag.CurrentUser)
-
+                @if (@ViewBag.User.ProfilePrivacy.ToString().ToLower() == "private" && @ViewBag.User.UserId != @ViewBag.CurrentUser && !ViewBag.IsFriend)
                 {
-                    <p>The user's profile is private. You can send a friend request.</p>
+                    if (ViewBag.FriendRequestStatus)
+                    {
+                        <p id="friendStatusLabel">A request has been sent! :) Let's hope for the best!</p>
+                    }
+                    else
+                    {
+                        <p id="friendStatusLabel">The user's profile is private. You can send a friend request.</p>
+                        <button style="color:black" id="sendFriendRequest" class="btn btn-default btn-sm tip btn-responsive" title="" data-original-title="Add Friend"><span class="glyphicon glyphicon-plus glyphicon glyphicon-blackboard"></span>Add Friend</button>
+                    }
 
                 }
                 else
@@ -32,11 +39,17 @@
 
             </div>
             <div class="col-md-4 actions">
-                <div class="btn-group btn-group-vertical">
-                    <button class="btn btn-default btn-sm tip btn-responsive" title="" data-original-title="Add to friends"><span class="glyphicon glyphicon-plus glyphicon glyphicon-white"></span><a href="/User/Friends"> Friends</a></button>
+                <div class="btn-group">
+
+                    <button class="btn btn-default btn-sm tip btn-responsive" title="" data-original-title="Friends"><span class="glyphicon glyphicon-plus glyphicon glyphicon-white"></span><a href="/User/Friends/@ViewBag.User.UserId"> Friends</a></button>
                     <button class="btn btn-default btn-sm tip btn-responsive" title="" data-original-title="Send message"><span class="glyphicon glyphicon-envelope glyphicon glyphicon-white"></span><a href="/User/Message"> Message</a></button>
+                    @if (@ViewBag.User.UserId != @ViewBag.CurrentUser && ViewBag.isFriend)
+                    {
+                        <button style="color:black" id="@ViewBag.User.UserId" class=" deleteFriend btn btn-default btn-sm tip btn-responsive" title="" data-original-title="Delete friend"><span class="glyphicon glyphicon-envelope glyphicon glyphicon-white"></span> Delete friend</button>
+                    }
                     @if (User.IsInRole("Administrator") || @ViewBag.User.UserId == @ViewBag.CurrentUser)
                     {
+                        <button class="btn btn-default btn-sm tip btn-responsive" title="" data-original-title="GetFriendRequests"><span class="glyphicon glyphicon-plus glyphicon glyphicon-white"></span><a href="/User/GetFriendRequests"> See friend requests</a></button>
                         <button class="btn btn-default btn-sm tip btn-responsive" title="" data-original-title="Edit my profile"><span class="glyphicon glyphicon-pencil glyphicon glyphicon-white"></span><a href="/User/Edit/@ViewBag.User.UserId"> Edit my profile</a></button>
                         <form method="post" action="/User/Delete/@ViewBag.User.UserId">
                             @Html.HttpMethodOverride(HttpVerbs.Delete)
@@ -51,8 +64,8 @@
         <div class="row">
 
         </div>
-
-        <div class="container">
+        
+        <div class="container" ">
             <h3>See @ViewBag.User.FirstName's albums</h3>
             <ul class="list-group">
                 @foreach (FacePalm.Models.Album al in ViewBag.Albums)
@@ -73,19 +86,82 @@
                         <br /><br />
                     }
                     <div class="container">
-            <div class="row">
-                @foreach (FacePalm.Models.Post post in ViewBag.Posts)
-                {
-                <div class="col-md-4">
-                    @Html.Partial("PostInfo", post)
-                </div>
-                <br />
-                }
-            </div>
-                   </div> 
+                        <div class="row">
+                            @foreach (FacePalm.Models.Post post in ViewBag.Posts)
+                            {
+                                <div class="col-md-4">
+                                    @Html.Partial("PostInfo", post)
+                                </div>
+                                <br />
+                            }
+                        </div>
+                    </div>
                 }
 
             </div>
-        </div>        
+        </div>
     </div>
 </div>
+
+
+<script type="text/javascript">
+
+   $(document).ready(function() {
+       $("#sendFriendRequest").click(function() {
+
+           var friendRequestData = {
+               FromUserId: '@ViewBag.CurrentUser',
+               ToUserId: '@ViewBag.User.UserId',
+           };
+           $.ajax({
+               type: 'POST',
+               dataType: 'json',
+               data: JSON.stringify({ "friendRequestData": friendRequestData }),
+               url: '/User/AddFriend',
+               cache: false,
+               contentType: 'application/json; charset=utf-8',
+               success: function (serverAnswer) {
+                   if (serverAnswer.success) {
+                       //do something, remove button, add label "Friend request already sent"
+                       $("#sendFriendRequest").hide();
+                       $("#friendStatusLabel").text("A request has been sent! :) Let's hope for the best!");
+                   }
+                   else
+                   {
+                       alert("The request couldn't be processed, please try again :(")
+                   }
+               },
+               error: function () {
+                   alert("error");
+               }
+           });
+               
+        });
+    });
+
+    $(document).ready(function () {
+        $(".deleteFriend").click(function () {
+        
+        $.ajax({
+            type: 'POST',
+            dataType: 'json',
+            data: JSON.stringify({ "friendId": $(this).attr('id')}),
+            url: '/User/DeleteFriend',
+            cache: false,
+            contentType: 'application/json; charset=utf-8',
+            success: function (serverAnswer) {
+                if (serverAnswer.success) {
+                    location.reload();
+                }
+                else {
+                    alert("The request couldn't be processed, please try again :(")
+                }
+            },
+            error: function () {
+                alert("error");
+            }
+        });
+        })
+    });
+
+</script> 

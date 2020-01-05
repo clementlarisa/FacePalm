@@ -166,7 +166,7 @@ namespace FacePalm.Controllers
                     ProfilePrivacy = model.ProfilePrivacy,
                     ImageFile = null,
                     ImagePath = null,
-                    FriendsIds = null,
+                    Friends = null,
                     AlbumsIds = null,
                     ConversationsIds = null,
                     GroupsIds = null,
