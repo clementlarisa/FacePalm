@@ -12,6 +12,7 @@
                 }
             </div>
             <div class="col-md-4 userInformations ">
+<<<<<<< HEAD
                 <h1><span class="glyphicon glyphicon-asterisk"></span>@ViewBag.User.FirstName @ViewBag.User.LastName</h1>
                 @if (@ViewBag.User.ProfilePrivacy.ToString().ToLower() == "private" && @ViewBag.User.UserId != @ViewBag.CurrentUser && !ViewBag.IsFriend)
                 {
@@ -24,20 +25,28 @@
                         <p id="friendStatusLabel">The user's profile is private. You can send a friend request.</p>
                         <button style="color:black" id="sendFriendRequest" class="btn btn-default btn-sm tip btn-responsive" title="" data-original-title="Add Friend"><span class="glyphicon glyphicon-plus glyphicon glyphicon-blackboard"></span>Add Friend</button>
                     }
+=======
+                <h1>@ViewBag.User.FirstName @ViewBag.User.LastName</h1>
+                @if (@ViewBag.User.ProfilePrivacy.ToString().ToLower() == "private" && @ViewBag.User.UserId != @ViewBag.CurrentUser)
+                {
+                    <p class="lead text-secondary">The user's profile is private. You can send a friend request and chat.</p>
+>>>>>>> master
 
                 }
                 else
                 {
-                    <h2><span class="glyphicon glyphicon-gift"></span> <span class="title">Date of birth: </span> @ViewBag.User.BirthDate.ToShortDateString()</h2>
-                    <h2><span class="glyphicon glyphicon-pencil"></span> <span class="title">Education: </span>@ViewBag.User.Education</h2>
-                    if (!string.IsNullOrEmpty(@ViewBag.User.Job))
-                    {
-                        <h2><span class="glyphicon glyphicon-euro"></span> <span class="title">Job: </span>@ViewBag.User.Job</h2>
-                    }
-                    <h2><span class="glyphicon glyphicon-heart-empty"></span> <span class="title">Relationship status: </span>@ViewBag.User.RelationshipStatus</h2>
-                }
+                    <hr class="my-4">
+                    
+                        <p>Date of birth: @ViewBag.User.BirthDate.ToShortDateString()</p>
+                        <p>Education: @ViewBag.User.Education</p>
+                        if (!string.IsNullOrEmpty(@ViewBag.User.Job))
+                        {
+                        <p>Job: @ViewBag.User.Job</p>
+                        }
+                        <p>Relationship status: @ViewBag.User.RelationshipStatus</p>
+                                        }
 
-            </div>
+                </div>
             <div class="col-md-4 actions">
                 <div class="btn-group">
 
@@ -64,6 +73,7 @@
         <div class="row">
 
         </div>
+<<<<<<< HEAD
         
         <div class="container" ">
             <h3>See @ViewBag.User.FirstName's albums</h3>
@@ -79,11 +89,18 @@
                 {
                     <h3> @ViewBag.User.FirstName's posts</h3>
                     if (@ViewBag.User.UserId == @ViewBag.CurrentUser)
+=======
+        @if (@ViewBag.User.ProfilePrivacy.ToString().ToLower() == "public" || @ViewBag.User.UserId == @ViewBag.CurrentUser)
+        {
+            <div class="container">
+                <h3>See @ViewBag.User.FirstName's albums</h3>
+                <ul class="list-group">
+                    @foreach (FacePalm.Models.Album al in ViewBag.Albums)
+>>>>>>> master
                     {
-                        <br />
-                        <a class="btn btn-success" href="/Post/New">Create a post</a>
-                        <br /><br />
+                        <li class="list-group-item"><a class="btn btn-link" href="/Album/Show/@al.AlbumId">@al.AlbumTitle</a></li>
                     }
+<<<<<<< HEAD
                     <div class="container">
                         <div class="row">
                             @foreach (FacePalm.Models.Post post in ViewBag.Posts)
@@ -96,8 +113,36 @@
                         </div>
                     </div>
                 }
+=======
+                </ul>
+            
 
+                <div class="album py-5 bg-light">
+                    @* TODO: @clementlarisa Should be displayed if current user is friends with user *@
+                        <h3> @ViewBag.User.FirstName's posts</h3>
+                        @if (@ViewBag.User.UserId == @ViewBag.CurrentUser)
+                        {
+                            <br />
+                            <a class="btn btn-success" href="/Post/New">Create a post</a>
+                            <br /><br />
+                        }
+                        <div class="container">
+                            <div class="row">
+                                @foreach (FacePalm.Models.Post post in ViewBag.Posts)
+                                {
+                                    <div class="col-md-4">
+                                        @Html.Partial("PostInfo", post)
+                                    </div>
+                                    <br />
+                                }
+                            </div>
+                        </div>
+                    
+>>>>>>> master
+
+                </div>
             </div>
+<<<<<<< HEAD
         </div>
     </div>
 </div>
@@ -164,3 +209,8 @@
     });
 
 </script> 
+=======
+        }
+        </div>
+    </div>
+>>>>>>> master
