@@ -1,9 +1,7 @@
 ﻿using FacePalm.Models;
 using Microsoft.AspNet.Identity;
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Web;
 using System.Web.Mvc;
 
 namespace FacePalm.Controllers
@@ -23,8 +21,8 @@ namespace FacePalm.Controllers
             var userId = User.Identity.GetUserId();
 
             var usersAlbums = from al in db.Albums
-                             where al.UserId == userId
-                             select al;
+                              where al.UserId == userId
+                              select al;
             ViewBag.Albums = usersAlbums;
 
             return View();

@@ -164,7 +164,7 @@ namespace FacePalm.Controllers
         {
             try
             {
-                
+
                 var user = db.Users.Find(comment.UserId);
                 comment.User = user;
                 user.Comments.Add(comment);
@@ -177,7 +177,7 @@ namespace FacePalm.Controllers
 
                 return Json(new { success = true });
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 return Json(new { success = false });
             }

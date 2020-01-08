@@ -44,7 +44,7 @@ namespace FacePalm.Models
             base.OnModelCreating(modelBuilder);
             modelBuilder.Entity<Friendship>()
                         .HasKey(fs =>
-                                    new {fs.FirstUserId, fs.SecondUserId }
+                                    new { fs.FirstUserId, fs.SecondUserId }
                                 );
             modelBuilder.Entity<FriendRequest>()
                         .HasKey(fs =>

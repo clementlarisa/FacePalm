@@ -1,7 +1,6 @@
 ﻿using FacePalm.Models;
 using Microsoft.AspNet.Identity;
 using System;
-using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
 using System.Threading.Tasks;
@@ -34,8 +33,8 @@ namespace FacePalm.Controllers
             ViewBag.CurrentUser = currentUserId;
             ViewBag.Posts = posts.OrderByDescending(x => x.Date);
             ViewBag.Albums = albums;
-            var friendshipStatus = _applicationDBContext.Friendship.Any(f => (f.FirstUserId == currentUserId && f.SecondUserId == id)|| (f.FirstUserId == id && f.SecondUserId == currentUserId));
-            if(friendshipStatus)
+            var friendshipStatus = _applicationDBContext.Friendship.Any(f => (f.FirstUserId == currentUserId && f.SecondUserId == id) || (f.FirstUserId == id && f.SecondUserId == currentUserId));
+            if (friendshipStatus)
             {
                 ViewBag.IsFriend = true;
             }
@@ -44,7 +43,7 @@ namespace FacePalm.Controllers
                 ViewBag.IsFriend = false;
             }
             var anyFriendRequest = _applicationDBContext.FriendRequests.Any(r => r.FromUserId == id && r.ToUserId == currentUserId);
-            if(anyFriendRequest)
+            if (anyFriendRequest)
             {
                 var friendReqFromUserToMe = _applicationDBContext.FriendRequests.Where(r => r.FromUserId == id && r.ToUserId == currentUserId);
                 if (friendReqFromUserToMe != null)
@@ -56,7 +55,7 @@ namespace FacePalm.Controllers
             {
                 ViewBag.FriendRequestStatus = false;
             }
-            
+
             return View();
         }
 
@@ -233,7 +232,7 @@ namespace FacePalm.Controllers
         [HttpPost]
         public ActionResult AddFriend(FriendRequest friendRequestData)
         {
-          if(friendRequestData != null)
+            if (friendRequestData != null)
             {
                 _applicationDBContext.FriendRequests.Add(friendRequestData);
                 _applicationDBContext.SaveChanges();
@@ -247,11 +246,11 @@ namespace FacePalm.Controllers
         {
             try
             {
-                
+
                 var currentUserId = User.Identity.GetUserId();
                 ViewBag.CurrentUser = currentUserId;
                 var anyfriendRequest = _applicationDBContext.FriendRequests.Any(f => f.ToUserId == currentUserId);
-                if(anyfriendRequest)
+                if (anyfriendRequest)
                 {
                     var fr = _applicationDBContext.FriendRequests.Where(f => f.ToUserId == currentUserId);
                     var friendsToBe = _applicationDBContext.Users.Where(u => fr.Select(f => f.FromUserId).Contains(u.UserId));
@@ -263,9 +262,9 @@ namespace FacePalm.Controllers
                     ViewBag.FriendRequests = null;
                     return View("FriendRequests");
                 }
-                
+
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 TempData["message"] = "Something went wrong..." + ex.ToString();
                 ViewBag.message = TempData["message"].ToString();
@@ -299,11 +298,11 @@ namespace FacePalm.Controllers
                     return Json(new { success = false });
                 }
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 return Json(new { success = false });
             }
-            
+
         }
 
         [HttpPost]
@@ -325,7 +324,7 @@ namespace FacePalm.Controllers
                 _applicationDBContext.SaveChanges();
                 return Json(new { success = true });
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 return Json(new { success = false });
             }

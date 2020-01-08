@@ -171,7 +171,7 @@ namespace FacePalm.Controllers
                     ConversationsIds = null,
                     GroupsIds = null,
                     Posts = null,
-                    Comments= null
+                    Comments = null
                 };
 
                 if (result.Succeeded)
