@@ -24,7 +24,9 @@
 <script type="text/javascript">
 
    $(document).ready(function() {
-       $(".acceptFriendRequest").click(function() {
+       $(".acceptFriendRequest").click(function(event) {
+           event.stopPropagation();
+           event.stopImmediatePropagation();
 
            var friendRequestData = {
                FromUserId: $(this).parent().attr('id'),
@@ -61,8 +63,9 @@
     });
 
     $(document).ready(function() {
-       $(".declineFriendRequest").click(function() {
-           
+       $(".declineFriendRequest").click(function(event) {
+           event.stopPropagation();
+           event.stopImmediatePropagation();
            $.ajax({
                type: 'POST',
                dataType: 'json',

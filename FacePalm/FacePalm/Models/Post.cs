@@ -14,6 +14,7 @@ namespace FacePalm.Models
         public int PostId { get; set; }
         [Required]
         public string UserId { get; set; }
+        public virtual User User { get; set; }
         [DisplayName("Description")]
         public string ImageDescription { get; set; }
         [DisplayName("Upload Photo")]

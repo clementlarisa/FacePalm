@@ -18,6 +18,7 @@ namespace FacePalm.Controllers
         [Authorize(Roles = "Administrator")]
         public ActionResult Index()
         {
+            ViewBag.currentUserId = User.Identity.GetUserId();
             if (TempData.ContainsKey("message"))
             {
                 ViewBag.message = TempData["message"].ToString();
@@ -156,6 +157,30 @@ namespace FacePalm.Controllers
 
             // returnam lista de albume
             return selectList;
+        }
+
+        [HttpPost]
+        public ActionResult AddComment(Comment comment)
+        {
+            try
+            {
+                
+                var user = db.Users.Find(comment.UserId);
+                comment.User = user;
+                user.Comments.Add(comment);
+                var postIdInt = Int32.Parse(comment.PostId);
+                var post = db.Posts.Find(postIdInt);
+                comment.Post = post;
+                post.Comments.Add(comment);
+                db.Comments.Add(comment);
+                db.SaveChanges();
+
+                return Json(new { success = true });
+            }
+            catch(Exception ex)
+            {
+                return Json(new { success = false });
+            }
         }
     }
 }

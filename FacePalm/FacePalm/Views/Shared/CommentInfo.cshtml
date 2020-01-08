@@ -1,0 +1,26 @@
+﻿@model FacePalm.Models.Comment
+
+<div class="container">
+    <div class="row">
+        <div class="col-sm-12">
+            <p>@Model.User.FirstName @Model.User.LastName</p>
+        </div><!-- /col-sm-12 -->
+    </div><!-- /row -->
+    <div class="row">
+        <div class="col-sm-1">
+            <div class="thumbnail">
+                <img src="~/Images/profilePictureDefault.png">
+            </div><!-- /thumbnail -->
+        </div><!-- /col-sm-1 -->
+        <div class="col-sm-5">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <span class="text-muted">@Html.DisplayFor(model => model.Date)</span>
+                </div>
+                <div class="panel-body">
+                    @Html.DisplayFor(model => model.Content)
+                </div><!-- /panel-body -->
+            </div><!-- /panel panel-default -->
+        </div><!-- /col-sm-5 -->
+    </div><!-- /row -->
+</div><!-- /container -->

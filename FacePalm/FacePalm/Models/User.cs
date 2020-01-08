@@ -38,8 +38,8 @@ namespace FacePalm.Models
         public List<string> AlbumsIds { get; set; }
         public List<string> ConversationsIds { get; set; }
         public List<string> GroupsIds { get; set; }
-        public List<string> PostsIds { get; set; }
-        public List<string> CommentsIds { get; set; }
+        public virtual ICollection<Post> Posts { get; set; }
+        public virtual ICollection<Comment> Comments { get; set; }
         
     }
 
