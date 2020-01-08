@@ -166,12 +166,12 @@ namespace FacePalm.Controllers
                     ProfilePrivacy = model.ProfilePrivacy,
                     ImageFile = null,
                     ImagePath = null,
-                    FriendsIds = null,
+                    Friends = null,
                     AlbumsIds = null,
                     ConversationsIds = null,
                     GroupsIds = null,
-                    PostsIds = null,
-                    CommentsIds = null
+                    Posts = null,
+                    Comments= null
                 };
 
                 if (result.Succeeded)

@@ -34,12 +34,13 @@ namespace FacePalm.Models
         public string ImagePath { get; set; }
         [NotMapped]
         public HttpPostedFileBase ImageFile { get; set; }
-        public Dictionary<string, string> FriendsIds { get; set; }
+        public virtual ICollection<User> Friends { get; set; } 
         public List<string> AlbumsIds { get; set; }
         public List<string> ConversationsIds { get; set; }
         public List<string> GroupsIds { get; set; }
-        public List<string> PostsIds { get; set; }
-        public List<string> CommentsIds { get; set; }
+        public virtual ICollection<Post> Posts { get; set; }
+        public virtual ICollection<Comment> Comments { get; set; }
+        
     }
 
 }

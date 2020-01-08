@@ -1,15 +1,86 @@
-﻿@model FacePalm.Models.Post
+﻿@{ICollection<FacePalm.Models.Comment> comments = Model.Comments.ToList();}
+@model FacePalm.Models.Post
 
-    <div class="card mb-4 box-shadow">
-            <img class="card-img-top img-responsive" src="@Url.Content(Model.ImagePath)" />
-            <div class="card-body">
-                <span><p class="card-text"> @Html.DisplayFor(model => model.ImageDescription) </p></span>
-                <div class="d-flex justify-content-between align-items-center">
-                    <div class="btn-group">
-                        <button type="button" class="btn btn-sm btn-outline-secondary">View</button>
-                        <button type="button" class="btn btn-sm btn-outline-secondary">Edit</button>
-                    </div>
-                    <small class="text-muted">@Html.DisplayFor(model => model.Date)</small>
-                </div>
-            </div>
+
+
+<div>
+    <div style ="height: 600px; width: 400px;  class="card mb-4 box-shadow">
+        <img style ="height: 600px; width: 400px; "class="card-img-top img-responsive" src="@Url.Content(Model.ImagePath)" />
     </div>
+    <div>
+        <span><p class="card-text"> @Html.DisplayFor(model => model.ImageDescription) </p></span>
+        <div class="d-flex justify-content-between align-items-center">
+            <div class="btn-group">
+                <button type="button" class="btn btn-sm btn-outline-secondary"><a href="/Post/Show/@Html.DisplayFor(model => model.PostId)">View</a></button>
+                <button type="button" class="btn btn-sm btn-outline-secondary"><a href="/Post/Edit/@Html.DisplayFor(model => model.PostId)"> Edit</a></button>
+                <button type="button" class="addComment btn btn-sm btn-outline-secondary">Add comment</button>
+            </div>
+            <small class="text-muted">@Html.DisplayFor(model => model.Date)</small>
+            <!--here comes the text area-->
+        </div>
+        <div>
+            @if (comments.Count > 0)
+            {
+                foreach (var comm in comments)
+                {
+                    <div class="col-md-6">
+                        @Html.Partial("CommentInfo", comm)
+                    </div>
+                    <br />
+                }
+            }
+        </div>
+    </div>
+</div>
+<script>
+    $(document).ready(function () {
+        $(".addComment").click(function (event) {
+            event.stopPropagation();
+            event.stopImmediatePropagation();
+            var textArea = $('<textarea rows = "4" cols = "100%" id = "comment" class="d-flex justify-content-between align-items-center"/>');
+            $(this).parent().parent().parent().append(textArea);
+            var $submitButton = $('<button type="button" class="submitCommentBtn btn btn-sm btn-outline-secondary">Add</button>');
+            $submitButton.on('click', function (e) {
+        $(".submitCommentBtn").click(function () {
+
+            var textAreaValue = $(this).parent().parent().children().last().children().eq(3).val();
+            var userId = '@ViewBag.User.UserId';
+            var comment = {
+                PostId: @Model.PostId,
+                UserId: userId,
+                Content: textAreaValue,
+                Date: new Date($.now())
+            };
+            var thisButton = $(this);
+            var thisTextArea = $(this).parent().parent().children().last().children().eq(3);
+            $.ajax({
+                type: 'POST',
+                dataType: 'json',
+                data: JSON.stringify({ "comment": comment }),
+                url: '/Post/AddComment',
+                cache: false,
+                contentType: 'application/json; charset=utf-8',
+                success: function (serverAnswer) {
+                    if (serverAnswer.success) {
+                        thisButton.remove();
+                        thisTextArea.remove();
+                        //Something to add the comm in the list
+                        location.reload();
+                    }
+                    else {
+                        alert("The request couldn't be processed, please try again :(")
+                    }
+                },
+                error: function () {
+                    alert("error");
+                }
+            });
+        });
+    });
+            $(this).parent().parent().parent().append($submitButton);
+            $(this).hide();
+        });
+
+    });
+    
+</script>

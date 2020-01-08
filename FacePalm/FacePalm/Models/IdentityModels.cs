@@ -31,10 +31,26 @@ namespace FacePalm.Models
         public DbSet<Group> Groups { get; set; }
         public DbSet<Message> Messages { get; set; }
         public DbSet<Post> Posts { get; set; }
+        public DbSet<Friendship> Friendship { get; set; }
+        public DbSet<FriendRequest> FriendRequests { get; set; }
 
         public static ApplicationDbContext Create()
         {
             return new ApplicationDbContext();
+        }
+        //pt prieteni se stieee: https://translate.google.com/translate?hl=ro&sl=en&tl=ro&u=https%3A%2F%2Fwww.entityframeworktutorial.net%2Fefcore%2Fconfigure-many-to-many-relationship-in-ef-core.aspx&anno=2
+        protected override void OnModelCreating(DbModelBuilder modelBuilder)
+        {
+            base.OnModelCreating(modelBuilder);
+            modelBuilder.Entity<Friendship>()
+                        .HasKey(fs =>
+                                    new {fs.FirstUserId, fs.SecondUserId }
+                                );
+            modelBuilder.Entity<FriendRequest>()
+                        .HasKey(fs =>
+                                    new { fs.FromUserId, fs.ToUserId }
+                                );
+
         }
     }
 }

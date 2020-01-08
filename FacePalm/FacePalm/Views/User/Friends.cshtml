@@ -1,0 +1,21 @@
+﻿<div>
+    @if (ViewBag.Friends.Count > 0)
+    {
+    <ul>
+        @foreach (var friend in @ViewBag.Friends)
+        {
+            <li>
+                <img src="@friend.ImagePath" class="img-thumbnail img-profile" />
+                <h3>@friend.FirstName @friend.LastName </h3>
+                <button class="btn btn-default btn-sm tip btn-responsive" title="" data-original-title="See profile"><span class="glyphicon glyphicon-envelope glyphicon glyphicon-white"></span><a href="/User/Show/@friend.UserId"> See profile</a></button>
+            </li>
+        }
+    </ul>
+    }
+    else
+    {
+        <p> You don't have a friend at the moment.</p>
+        <img src="~/Images/sadPalm2.jpg" />
+    }
+</div>
+
