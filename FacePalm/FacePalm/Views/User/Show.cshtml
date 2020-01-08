@@ -8,7 +8,7 @@
                 }
                 else
                 {
-                    <img src="@ViewBag.User.ImagePath" class="img-thumbnail img-profile">
+                    <img src="@Url.Content(ViewBag.User.ImagePath)" class="img-thumbnail img-profile">
                 }
             </div>
             <div class="col-md-4 userInformations ">
@@ -42,11 +42,14 @@
             </div>
             <div class="col-md-4 actions">
                 <div class="btn-group">
-
-                    <button class="btn btn-default btn-sm tip btn-responsive" title="" data-original-title="Friends"><span class="glyphicon glyphicon-plus glyphicon glyphicon-white"></span><a href="/User/Friends/@ViewBag.User.UserId"> Friends</a></button>
+                    @if ((@ViewBag.User.UserId != @ViewBag.CurrentUser && ViewBag.isFriend)||(User.IsInRole("Administrator") || @ViewBag.User.UserId == @ViewBag.CurrentUser))
+                    {
+                        <button class="btn btn-default btn-sm tip btn-responsive" title="" data-original-title="Friends"><span class="glyphicon glyphicon-plus glyphicon glyphicon-white"></span><a href="/User/Friends/@ViewBag.User.UserId"> Friends</a></button>
+                    }
                     <button class="btn btn-default btn-sm tip btn-responsive" title="" data-original-title="Send message"><span class="glyphicon glyphicon-envelope glyphicon glyphicon-white"></span><a href="/User/Message"> Message</a></button>
                     @if (@ViewBag.User.UserId != @ViewBag.CurrentUser && ViewBag.isFriend)
                     {
+
                         <button style="color:black" id="@ViewBag.User.UserId" class=" deleteFriend btn btn-default btn-sm tip btn-responsive" title="" data-original-title="Delete friend"><span class="glyphicon glyphicon-envelope glyphicon glyphicon-white"></span> Delete friend</button>
                     }
                     @if (User.IsInRole("Administrator") || @ViewBag.User.UserId == @ViewBag.CurrentUser)
@@ -89,13 +92,12 @@
                                 <br /><br />
                             }
                             <div class="container">
-                                <div class="row">
+                                <div class="row" style="width:90%;">
                                     @foreach (FacePalm.Models.Post post in ViewBag.Posts)
                                     {
-                                        <div class="col-md-4">
+                                        
                                             @Html.Partial("PostInfo", post)
-                                        </div>
-                                        <br />
+                                        
                                     }
                                 </div>
                             </div>

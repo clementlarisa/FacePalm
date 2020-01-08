@@ -10,6 +10,11 @@ namespace FacePalm.Models
 {
     public class Post
     {
+        public Post()
+        {
+            Album = null;
+            AlbumId = -1;
+        }
         [Key]
         public int PostId { get; set; }
         [Required]
@@ -23,7 +28,7 @@ namespace FacePalm.Models
         public HttpPostedFileBase ImageFile { get; set; }
         public DateTime Date { get; set; }
         public virtual ICollection<Comment> Comments { get; set; }
-        public int AlbumId { get; set; }
+        public int? AlbumId { get; set; }
         public virtual Album Album { get; set; }
         public IEnumerable<SelectListItem> Albums { get; set; }
     }

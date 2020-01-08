@@ -3,7 +3,7 @@
 
 
 
-<div>
+<div style="width:90%;">
     <div style ="height: 600px; width: 400px;  class="card mb-4 box-shadow">
         <img style ="height: 600px; width: 400px; "class="card-img-top img-responsive" src="@Url.Content(Model.ImagePath)" />
     </div>
@@ -16,14 +16,15 @@
                 <button type="button" class="addComment btn btn-sm btn-outline-secondary">Add comment</button>
             </div>
             <small class="text-muted">@Html.DisplayFor(model => model.Date)</small>
-            <!--here comes the text area-->
+
         </div>
+        <!--here comes the text area-->
         <div>
             @if (comments.Count > 0)
             {
                 foreach (var comm in comments)
                 {
-                    <div class="col-md-6">
+                    <div>
                         @Html.Partial("CommentInfo", comm)
                     </div>
                     <br />

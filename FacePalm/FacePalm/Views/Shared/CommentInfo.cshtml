@@ -1,18 +1,16 @@
 ﻿@model FacePalm.Models.Comment
 
-<div class="container">
-    <div class="row">
-        <div class="col-sm-12">
+<div class="container"style="background-color:aliceblue;">
+    <div class="row" >
+        <div>
             <p>@Model.User.FirstName @Model.User.LastName</p>
         </div><!-- /col-sm-12 -->
     </div><!-- /row -->
     <div class="row">
-        <div class="col-sm-1">
-            <div class="thumbnail">
-                <img src="~/Images/profilePictureDefault.png">
-            </div><!-- /thumbnail -->
-        </div><!-- /col-sm-1 -->
-        <div class="col-sm-5">
+       <div class="thumbnail">
+            <img src="~/Images/profilePictureDefault.png" style="width: 30px; height:30px;">
+       </div><!-- /thumbnail -->
+        <div>
             <div class="panel panel-default">
                 <div class="panel-heading">
                     <span class="text-muted">@Html.DisplayFor(model => model.Date)</span>

@@ -40,6 +40,8 @@ namespace FacePalm.Models
         public List<string> GroupsIds { get; set; }
         public virtual ICollection<Post> Posts { get; set; }
         public virtual ICollection<Comment> Comments { get; set; }
+        public virtual ICollection<Conversation> Conversations { get; set; }
+
 
     }
 

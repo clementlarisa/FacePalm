@@ -5,13 +5,14 @@ namespace FacePalm.Models
     public class Message
     {
         [Key]
-        public string MessageId { get; set; }
+        public int MessageId { get; set; }
         [Required]
-        public string SenderId { get; set; }
-        [Required]
-        public string ReceiverId { get; set; }
+        public string UserId { get; set; }
         [Required]
         public string Content { get; set; }
+        public int ConverstionId { get; set; }
+        public virtual Conversation Conversation { get; set; }
+        public System.DateTime Date { get; set; }
     }
 
 }

@@ -68,14 +68,16 @@ namespace FacePalm.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult New(Post post)
         {
-            string fileName = Path.GetFileNameWithoutExtension(post.ImageFile.FileName);
-            string extension = Path.GetExtension(post.ImageFile.FileName);
-            fileName = fileName + DateTime.Now.ToString("yymmssfff") + extension;
-            post.ImagePath = "~/Images/" + fileName;
-            fileName = Path.Combine(Server.MapPath("~/Images/"), fileName);
-            post.ImageFile.SaveAs(fileName);
+            if (post.ImageFile != null)
+            {
+                string fileName = Path.GetFileNameWithoutExtension(post.ImageFile.FileName);
+                string extension = Path.GetExtension(post.ImageFile.FileName);
+                fileName = fileName + DateTime.Now.ToString("yymmssfff") + extension;
+                post.ImagePath = "~/Images/" + fileName;
+                fileName = Path.Combine(Server.MapPath("~/Images/"), fileName);
+                post.ImageFile.SaveAs(fileName);
+            }
             post.Albums = GetAllAlbums();
-
             if (ModelState.IsValid)
             {
                 db.Posts.Add(post);

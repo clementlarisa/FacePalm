@@ -165,7 +165,7 @@ namespace FacePalm.Controllers
                     RelationshipStatus = model.RelationshipStatus,
                     ProfilePrivacy = model.ProfilePrivacy,
                     ImageFile = null,
-                    ImagePath = null,
+                    ImagePath = "~/Images/profilePictureDefault.png",
                     Friends = null,
                     AlbumsIds = null,
                     ConversationsIds = null,

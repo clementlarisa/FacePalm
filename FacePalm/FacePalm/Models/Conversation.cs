@@ -6,13 +6,17 @@ namespace FacePalm.Models
 {
     public class Conversation
     {
+        public Conversation()
+        {
+            this.Users = new HashSet<User>();
+        }
         [Key]
         public string ConversationId { get; set; }
         [Required]
-        public string FirstUserId { get; set; }
+        public virtual ICollection<User> Users { get; set; }
         [Required]
         public string SecondUserId { get; set; }
-        public List<string> MessagesIds { get; set; }
+        public virtual ICollection<Message> Messages { get; set; }
         public DateTime Date { get; set; }
     }
 
