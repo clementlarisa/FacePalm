@@ -1,59 +1,48 @@
 ﻿@model FacePalm.Models.Post
 @{ICollection<FacePalm.Models.Comment> comments = Model.Comments.ToList();}
-<div>
-    <h4>@ViewBag.numeCreator</h4>
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.Date)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Date)
-        </dd>
+    <div class="jumbotron">
+        <h4>@ViewBag.numeCreator's post</h4>
+        <p style="font-size:0.9rem; color:#5a5a5a">
+            on @Html.DisplayFor(model => model.Date)
+        </p>
+        <hr class="my-4">
 
-        <dt>
-            @Html.DisplayNameFor(model => model.ImageDescription)
-        </dt>
+        <dl class="dl-horizontal">
 
-        <dd>
-            @if (Model.ImageDescription == null)
+            <p>
+                @if (Model.ImageDescription != null)
+                {
+                    @Html.DisplayFor(model => model.ImageDescription)
+                }
+            </p>
+            @if (Model.ImagePath != null)
             {
-                <p>wtf?</p>
-            }
-            @Html.DisplayFor(model => model.ImageDescription)
-        </dd>
-        @if (Model.ImagePath != null)
-        {
-            <dd>
                 <img src="@Url.Content(Model.ImagePath)" class="img-responsive" />
-            </dd>
+            }
+
+
+
+        </dl>
+
+        @if ((ViewBag.afisareButoane == true && Model.UserId == ViewBag.CurrentUser) || ViewBag.esteAdmin)
+        {
+            @Html.HttpMethodOverride(HttpVerbs.Delete)
+            <button class="btn btn-success" type="submit"><a style="color:white" href="/Post/Delete/@Model.PostId">Delete post</a></button>
         }
-
-    </dl>
-
-
-    @if ((ViewBag.afisareButoane == true && Model.UserId == ViewBag.CurrentUser) || ViewBag.esteAdmin)
-    {
-
-        
-        @Html.HttpMethodOverride(HttpVerbs.Delete)
-        <button class="btn btn-success" type="submit"><a href="/Post/Delete/@Model.PostId">Delete post</a></button>
-    }
-    @if (Model.UserId == ViewBag.CurrentUser || ViewBag.isFriend)
-    {
-        <button type="button" class="addCommentPostInfo btn btn-sm btn-outline-secondary">Add comment</button>
-    }
-
-</div>
-<div>
-
-    @foreach (var comm in comments)
-    {
-        <div>
-            @Html.Partial("CommentInfo", comm)
-        </div>
+        @if (Model.UserId == ViewBag.CurrentUser || ViewBag.isFriend)
+        {
+            <button type="button" class="addCommentPostInfo btn btn-secondary">Add comment</button>
+        }
         <br />
-    }
-</div>
+        <br />
+
+        @foreach (var comm in comments)
+        {
+            <div>
+                @Html.Partial("CommentInfo", comm)
+            </div>
+        }
+    </div>
 
 <script>
     $(document).ready(function () {
@@ -62,7 +51,7 @@
             event.stopImmediatePropagation();
             var textArea = $('<textarea rows = "4" cols = "100%" id = "comment" class="d-flex justify-content-between align-items-center"/>');
             $(this).parent().append(textArea);
-            var $submitButton = $('<button type="button" class="submitCommentBtnPostInfo btn btn-sm btn-outline-secondary">Add</button>');
+            var $submitButton = $('<button type="button" class="submitCommentBtnPostInfo btn btn-secondary">Add</button>');
             $submitButton.on('click', function (e) {
                 var textAreaValue = $(this).parent().children().eq(5).val();
                 var userId = '@ViewBag.CurrentUser';

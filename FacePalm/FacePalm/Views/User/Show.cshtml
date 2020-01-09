@@ -1,32 +1,34 @@
 ﻿<div class="col-md-16" style="padding-top:22px;">
-    <div class="clearfix">
+    <div class="clearfix jumbotron" style="opacity: 0.9">
         @if (TempData.ContainsKey("message"))
         {
             <h3 class="alert alert-info" role="alert">@ViewBag.message</h3>
         }
         <div class="user clearfix row">
             <div class="col-md-4 avatar">
-                @if (!string.IsNullOrEmpty(ViewBag.User.ImagePath))
+                @if (string.IsNullOrEmpty(ViewBag.User.ImagePath))
                 {
                     <img src="~/Images/profilePictureDefault.png" />
                 }
                 else
                 {
-                    <img src="@Url.Content(ViewBag.User.ImagePath)" class="img-thumbnail img-profile">
+                    <img src="@Url.Content(ViewBag.User.ImagePath)" class="img-thumbnail ">
                 }
             </div>
             <div class="col-md-4 userInformations ">
-                <h1><span class="glyphicon glyphicon-asterisk"></span>@ViewBag.User.FirstName @ViewBag.User.LastName</h1>
+                <h1>@ViewBag.User.FirstName @ViewBag.User.LastName</h1>
                 @if (@ViewBag.User.ProfilePrivacy.ToString().ToLower() == "private" && @ViewBag.User.UserId != @ViewBag.CurrentUser && !ViewBag.IsFriend && !User.IsInRole("Administrator"))
                 {
                     if (ViewBag.FriendRequestStatus)
                     {
+                    <div class="alert alert-dismissible alert-success">
                         <p id="friendStatusLabel">A request has been sent! :) Let's hope for the best!</p>
+                    </div>
                     }
                     else
                     {
                         <p id="friendStatusLabel">The user's profile is private. You can send a friend request.</p>
-                        <button style="color:black" id="sendFriendRequest" class="btn btn-default btn-sm tip btn-responsive" title="" data-original-title="Add Friend"><span class="glyphicon glyphicon-plus glyphicon glyphicon-blackboard"></span>Add Friend</button>
+                        <button id="sendFriendRequest" class="btn btn-primary" title="" data-original-title="Add Friend">Add Friend</button>
                     }
 
                 }
@@ -34,35 +36,43 @@
                 {
                     <hr class="my-4">
 
-                    <p>Date of birth: @ViewBag.User.BirthDate.ToShortDateString()</p>
-                    <p>Education: @ViewBag.User.Education</p>
-                    if (!string.IsNullOrEmpty(@ViewBag.User.Job))
-                    {
-                        <p>Job: @ViewBag.User.Job</p>
-                    }
-                    <p>Relationship status: @ViewBag.User.RelationshipStatus</p>
-                }
+                    <span class="badge badge-primary">
+                        Date of birth: @ViewBag.User.BirthDate.ToShortDateString()</span>
+                    <span class="badge badge-primary">
+                        Education: @ViewBag.User.Education</span>
+                        if (!string.IsNullOrEmpty(@ViewBag.User.Job))
+                        {
+            <span class="badge badge-primary">
+                Job: @ViewBag.User.Job</span>
+            }
+            <span class="badge badge-primary">
+                Relationship status: @ViewBag.User.RelationshipStatus</span>
+            }
 
-            </div>
+</div>
             <div class="col-md-4 actions">
-                <div class="btn-group">
+                <div class="btn-group-vertical">
                     @if ((@ViewBag.User.UserId != @ViewBag.CurrentUser && ViewBag.isFriend) || (User.IsInRole("Administrator") || @ViewBag.User.UserId == @ViewBag.CurrentUser))
                     {
-                        <button class="btn btn-default btn-sm tip btn-responsive" title="" data-original-title="Friends"><span class="glyphicon glyphicon-plus glyphicon glyphicon-white"></span><a href="/User/Friends/@ViewBag.User.UserId"> Friends</a></button>
+                        <button style="color:white" class="btn btn-primary" title="" data-original-title="Friends"><a style="color:white" href="/User/Friends/@ViewBag.User.UserId"> Friends</a></button>
+                        <button style="color:white" class="btn btn-info" title="" data-original-title="Send message"><a style="color:white" href="/User/Message"> Message</a></button>
                     }
-                    <button class="btn btn-default btn-sm tip btn-responsive" title="" data-original-title="Send message"><span class="glyphicon glyphicon-envelope glyphicon glyphicon-white"></span><a href="/User/Message"> Message</a></button>
                     @if (@ViewBag.User.UserId != @ViewBag.CurrentUser && ViewBag.isFriend)
                     {
 
-                        <button style="color:black" id="@ViewBag.User.UserId" class=" deleteFriend btn btn-default btn-sm tip btn-responsive" title="" data-original-title="Delete friend"><span class="glyphicon glyphicon-envelope glyphicon glyphicon-white"></span> Delete friend</button>
+                        <button id="@ViewBag.User.UserId" class=" deleteFriend btn btn-danger" title="" data-original-title="Delete friend"> Delete friend</button>
                     }
                     @if (User.IsInRole("Administrator") || @ViewBag.User.UserId == @ViewBag.CurrentUser)
                     {
-                        <button class="btn btn-default btn-sm tip btn-responsive" title="" data-original-title="GetFriendRequests"><a href="/User/GetFriendRequests"> See friend requests</a></button>
-                        <button class="btn btn-default btn-sm tip btn-responsive" title="" data-original-title="Edit my profile"><a href="/User/Edit/@ViewBag.User.UserId"> Edit my profile</a></button>
+                        <button style="color:white" class="btn btn-primary" title="" data-original-title="GetFriendRequests"><a style="color:white" href="/User/GetFriendRequests"> See friend requests</a></button>
+                        <button style="color:white" class="btn btn-primary" title="" data-original-title="Edit my profile"><a style="color:white" href="/User/Edit/@ViewBag.User.UserId"> Edit my profile</a></button>
+
+                    }
+                    @if (User.IsInRole("Administrator"))
+                    {
                         <form method="post" action="/User/Delete/@ViewBag.User.UserId">
                             @Html.HttpMethodOverride(HttpVerbs.Delete)
-                            <button class="btn btn-danger btn-sm tip btn-responsive" type="submit">Delete my profile</button>
+                            <button class="btn btn-danger" type="submit"> Delete user</button>
                         </form>
                     }
                 </div>
@@ -70,13 +80,19 @@
 
         </div>
 
-        <div class="container" ">
+        <div class="container" style="opacity: 0.9;">
 
             @if (@ViewBag.User.ProfilePrivacy.ToString().ToLower() == "public" || @ViewBag.User.UserId == @ViewBag.CurrentUser || ViewBag.IsFriend || User.IsInRole("Administrator"))
             {
                 <div class="album py-5 bg-light">
                     <div class="container">
                         <h3>@ViewBag.User.FirstName's albums</h3>
+                        @if (@ViewBag.User.UserId == @ViewBag.CurrentUser)
+                        {
+                            <br />
+                            <a class="btn btn-success" href="/Album/New">Create an album</a>
+                            <br /><br />
+                        }
                         <ul class="list-group">
                             @foreach (FacePalm.Models.Album al in ViewBag.Albums)
                             {
@@ -86,7 +102,6 @@
 
 
                         <div class="album py-5 bg-light">
-                            @* TODO: @clementlarisa Should be displayed if current user is friends with user *@
                             <h3> @ViewBag.User.FirstName's posts</h3>
                             @if (@ViewBag.User.UserId == @ViewBag.CurrentUser)
                             {

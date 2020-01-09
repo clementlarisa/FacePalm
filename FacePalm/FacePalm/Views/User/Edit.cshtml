@@ -1,11 +1,11 @@
 ﻿@using FacePalm.Enums
 @model FacePalm.Models.User
 @{
- ViewBag.Title = "Edit";
+    ViewBag.Title = "Edit";
 }
 <h2>Edit my profile</h2>
 
-<form method="post" action="/User/Edit/@Model.UserId">
+<form method="post" action="/User/Edit/@Model.UserId" enctype="multipart/form-data">
     <div class="form-group">
         @Html.LabelFor(model => model.ImagePath, htmlAttributes: new { @class = "control-label col-md-2" })
         <div class="col-md-10">
@@ -50,6 +50,11 @@
     <br /><br />
     <button type="submit">Make changes</button>
 </form>
-    @section Scripts {
-        @Scripts.Render("~/bundles/jqueryval")
-    }
+
+<form method="post" action="/User/Delete/@ViewBag.User.UserId">
+    @Html.HttpMethodOverride(HttpVerbs.Delete)
+    <button class="btn btn-danger" type="submit"> Delete user</button>
+</form>
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

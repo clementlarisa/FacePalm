@@ -5,8 +5,8 @@
 {
     <h3 class="alert alert-info" role="alert">@ViewBag.message</h3>
 }
-<table class="table">
-    <tr>
+<table class="table table-hover">
+    <tr class="table-light">
         <th>
             @Html.DisplayNameFor(model => model.UserId)
         </th>
@@ -21,7 +21,7 @@
 
     @foreach (var item in Model)
     {
-        <tr>
+        <tr class="table-light">
             <td>
                 @Html.DisplayFor(modelItem => item.UserId)
             </td>
@@ -32,10 +32,13 @@
                 @Html.DisplayFor(modelItem => item.Date)
             </td>
             <td>
-                @Html.ActionLink("Edit", "Edit", new { id = item.PostId }) |
-                @Html.ActionLink("Show", "Show", new { id = item.PostId }) |
-                @Html.ActionLink("Delete", "Delete", new { id = item.PostId })
-            </td>
+                    <div class="btn-group">
+                        <button type="button" class="btn btn-secondary"><a style="color:white"href="/Post/Show/@item.PostId">View</a></button>                    <form method="post" action="/Post/Delete/@item.PostId">
+                            @Html.HttpMethodOverride(HttpVerbs.Delete)
+                         <button class="btn btn-danger" type="submit">Delete</button>
+                        </form>
+                    </div>
+</td>
         </tr>
     }
 

@@ -28,7 +28,9 @@
                 @if (User.Identity.IsAuthenticated && User.IsInRole("Administrator"))
                 {
                     <li class="nav-item">@Html.ActionLink("All Users", "Index", "User", null, new { @class = "nav-link" })</li>
-                    <li class="nav-item">@Html.ActionLink("All Posts", "Index", "Post", null, new { @class = "nav-link" })</li>                }
+                    <li class="nav-item">@Html.ActionLink("All Posts", "Index", "Post", null, new { @class = "nav-link" })</li>
+                    <li class="nav-item">@Html.ActionLink("All Albums", "AdminIndex", "Album", null, new { @class = "nav-link" })</li>
+                }
             </ul>
             @using (Html.BeginForm("Search", "Search", FormMethod.Get, new { @class = "form-inline my-2 my-lg-0" }))
             {

@@ -1,0 +1,25 @@
+﻿
+@{
+    ViewBag.Title = "All Photo Albums";
+}
+
+<h2>@ViewBag.Title</h2>
+<br />
+
+@if (TempData.ContainsKey("message"))
+{
+    <h3 class="alert alert-info" role="alert">@ViewBag.message</h3>
+}
+
+@foreach (var album in ViewBag.Albums)
+{
+    <p>@album.AlbumTitle</p>
+    <div class="btn-group">
+        <a class="btn btn-info" href="/Album/Show/@album.AlbumId">See album</a>
+        <a class="btn btn-warning" href="/Album/Edit/@album.AlbumId">Album settings</a>
+    </div>
+    <br />
+    <hr />
+    <br />
+}
+

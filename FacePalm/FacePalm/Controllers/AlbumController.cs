@@ -28,6 +28,18 @@ namespace FacePalm.Controllers
             return View();
         }
 
+        public ActionResult AdminIndex()
+        {
+            if (TempData.ContainsKey("message"))
+            {
+                ViewBag.message = TempData["message"].ToString();
+            }
+            var allAlbums = from al in db.Albums
+                              select al;
+            ViewBag.Albums = allAlbums;
+
+            return View();
+        }
         public ActionResult Show(int id)
         {
             Album album = db.Albums.Find(id);
@@ -43,7 +55,7 @@ namespace FacePalm.Controllers
 
             ViewBag.esteAdmin = User.IsInRole("Administrator");
             ViewBag.utilizatorCurent = User.Identity.GetUserId();
-            ViewBag.numeCreator = db.Users.Find(album.UserId).FirstName;
+            ViewBag.numeCreator = user.FirstName;
             return View(album);
         }
 

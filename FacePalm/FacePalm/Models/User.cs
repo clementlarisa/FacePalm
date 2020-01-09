@@ -35,7 +35,7 @@ namespace FacePalm.Models
         [NotMapped]
         public HttpPostedFileBase ImageFile { get; set; }
         public virtual ICollection<User> Friends { get; set; }
-        public List<string> AlbumsIds { get; set; }
+        public List<int> AlbumsIds { get; set; }
         public List<string> ConversationsIds { get; set; }
         public List<string> GroupsIds { get; set; }
         public virtual ICollection<Post> Posts { get; set; }

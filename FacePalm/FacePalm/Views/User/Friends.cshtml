@@ -1,21 +1,32 @@
 ﻿<div>
     @if (ViewBag.Friends.Count > 0)
     {
-    <ul>
-        @foreach (var friend in @ViewBag.Friends)
-        {
-            <li>
-                <img src="@friend.ImagePath" class="img-thumbnail img-profile" />
-                <h3>@friend.FirstName @friend.LastName </h3>
-                <button class="btn btn-default btn-sm tip btn-responsive" title="" data-original-title="See profile"><span class="glyphicon glyphicon-envelope glyphicon glyphicon-white"></span><a href="/User/Show/@friend.UserId"> See profile</a></button>
-            </li>
-        }
-    </ul>
+        <ul style="list-style:none">
+            @foreach (var friend in @ViewBag.Friends)
+            {
+                <li>
+                    @if (string.IsNullOrEmpty(friend.ImagePath))
+                    {
+                        <img src="~/Images/profilePictureDefault.png" />
+                    }
+                    else
+                    {
+                        <img src="@Url.Content(friend.ImagePath)" class="img-thumbnail img-profile">
+                    }
+                    <h3>@friend.FirstName @friend.LastName </h3>
+                    <button class="btn btn-default btn-sm tip btn-responsive" title="" data-original-title="See profile"><span class="glyphicon glyphicon-envelope glyphicon glyphicon-white"></span><a href="/User/Show/@friend.UserId"> See profile</a></button>
+                </li>
+            }
+        </ul>
     }
     else
     {
-        <p> You don't have a friend at the moment.</p>
-        <img src="~/Images/sadPalm2.jpg" />
+        <div class="card mb-3">
+            <h3 class="card-header">You don't have a friend at the moment.</h3>
+
+            <img style="width:593px; height:593px; block;" src="~/Images/sadPalm2.jpg" alt="Card image">
+            
+        </div>
     }
 </div>
 

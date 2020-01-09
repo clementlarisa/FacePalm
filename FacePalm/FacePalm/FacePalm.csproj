@@ -283,6 +283,7 @@
     <Content Include="Views\Shared\CommentInfo.cshtml" />
     <Content Include="Views\Comment\Edit.cshtml" />
     <Content Include="Views\Search\Search.cshtml" />
+    <Content Include="Views\Album\AdminIndex.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Images\" />

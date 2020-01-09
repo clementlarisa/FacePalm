@@ -3,7 +3,14 @@
 <div class="list-group-item list-group-item-action" style="background-color:aliceblue">
 <div class="row media" style="justify-content:space-between">
     <div class="media-left">
-        <img src="~/Images/profilePictureDefault.png" class="rounded-circle img-responsive" style="width: 60px; height: 60px; border:1px solid 	#78C1AD">
+        @if (string.IsNullOrEmpty(Model.User.ImagePath))
+        {
+            <img src="~/Images/profilePictureDefault.png" class="rounded-circle img-responsive" style="width: 60px; height: 60px; border:1px solid 	#78C1AD" />
+        }
+        else
+        {
+            <img src="@Url.Content(Model.User.ImagePath)" class="rounded-circle img-responsive" style="width: 60px; height: 60px; border:1px solid 	#78C1AD">
+        }
     </div>
     <div class="media-body">
         <h5 class="media-heading"><a href="/User/Show/@Model.User.UserId">@Model.User.FirstName @Model.User.LastName</a></h5>
@@ -14,7 +21,13 @@
     <div style="align-self: auto; flex-grow:1">
         @Html.DisplayFor(model => model.Content)
     </div><!-- /panel panel-default -->
-    </div>
+    @if (Model.UserId == ViewBag.CurrentUser)
+    {
+        <button type="button" class="btn btn-sm btn-outline-secondary"><a href="/Comment/Edit/@Html.DisplayFor(model => model.CommentId)"> Edit</a></button>
+
+        <button type="button" class=" deleteComment btn btn-sm btn-outline-secondary"> Delete</button>
+    }
+</div>
     </div>
     <script>
 
