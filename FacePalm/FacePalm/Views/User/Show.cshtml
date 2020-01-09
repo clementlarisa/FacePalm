@@ -1,5 +1,9 @@
 ﻿<div class="col-md-16" style="padding-top:22px;">
     <div class="clearfix">
+        @if (TempData.ContainsKey("message"))
+        {
+            <h3 class="alert alert-info" role="alert">@ViewBag.message</h3>
+        }
         <div class="user clearfix row">
             <div class="col-md-4 avatar">
                 @if (!string.IsNullOrEmpty(ViewBag.User.ImagePath))
@@ -42,7 +46,7 @@
             </div>
             <div class="col-md-4 actions">
                 <div class="btn-group">
-                    @if ((@ViewBag.User.UserId != @ViewBag.CurrentUser && ViewBag.isFriend)||(User.IsInRole("Administrator") || @ViewBag.User.UserId == @ViewBag.CurrentUser))
+                    @if ((@ViewBag.User.UserId != @ViewBag.CurrentUser && ViewBag.isFriend) || (User.IsInRole("Administrator") || @ViewBag.User.UserId == @ViewBag.CurrentUser))
                     {
                         <button class="btn btn-default btn-sm tip btn-responsive" title="" data-original-title="Friends"><span class="glyphicon glyphicon-plus glyphicon glyphicon-white"></span><a href="/User/Friends/@ViewBag.User.UserId"> Friends</a></button>
                     }
@@ -54,13 +58,12 @@
                     }
                     @if (User.IsInRole("Administrator") || @ViewBag.User.UserId == @ViewBag.CurrentUser)
                     {
-                        <button class="btn btn-default btn-sm tip btn-responsive" title="" data-original-title="GetFriendRequests"><span class="glyphicon glyphicon-plus glyphicon glyphicon-white"></span><a href="/User/GetFriendRequests"> See friend requests</a></button>
-                        <button class="btn btn-default btn-sm tip btn-responsive" title="" data-original-title="Edit my profile"><span class="glyphicon glyphicon-pencil glyphicon glyphicon-white"></span><a href="/User/Edit/@ViewBag.User.UserId"> Edit my profile</a></button>
+                        <button class="btn btn-default btn-sm tip btn-responsive" title="" data-original-title="GetFriendRequests"><a href="/User/GetFriendRequests"> See friend requests</a></button>
+                        <button class="btn btn-default btn-sm tip btn-responsive" title="" data-original-title="Edit my profile"><a href="/User/Edit/@ViewBag.User.UserId"> Edit my profile</a></button>
                         <form method="post" action="/User/Delete/@ViewBag.User.UserId">
                             @Html.HttpMethodOverride(HttpVerbs.Delete)
                             <button class="btn btn-danger btn-sm tip btn-responsive" type="submit">Delete my profile</button>
                         </form>
-
                     }
                 </div>
             </div>
@@ -77,7 +80,7 @@
                         <ul class="list-group">
                             @foreach (FacePalm.Models.Album al in ViewBag.Albums)
                             {
-                            <span class="row-cols-lg-3"><li class="list-group-item"><a class="btn btn-link" href="/Album/Show/@al.AlbumId">@al.AlbumTitle</a></li></span>
+                                <span class="row-cols-lg-3"><li class="list-group-item"><a class="btn btn-link" href="/Album/Show/@al.AlbumId">@al.AlbumTitle</a></li></span>
                             }
                         </ul>
 
@@ -95,8 +98,8 @@
                                 <div class="row">
                                     @foreach (FacePalm.Models.Post post in ViewBag.Posts)
                                     {
-                                        
-                                            @Html.Partial("PostInfo", post)
+
+                                        @Html.Partial("PostInfo", post)
                                         <br />
                                         <br />
                                     }
@@ -104,11 +107,11 @@
                             </div>
                         </div>
                     </div>
-                    </div>
-                    }
-
                 </div>
-            </div>
+            }
+
+        </div>
+    </div>
  </div>
 
 

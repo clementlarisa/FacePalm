@@ -26,10 +26,12 @@
                     <li class="nav-item">@Html.ActionLink("My Photo Albums", "Index/", "Album", null, new { @class = "nav-link" })</li>
                 }
             </ul>
-            <form class="form-inline my-2 my-lg-0">
-                <input class="form-control mr-sm-2" type="text" placeholder="Search">
+            @using (Html.BeginForm("Search", "Search", FormMethod.Get, new { @class = "form-inline my-2 my-lg-0" }))
+            {
+                @Html.TextBox("searchText", "", new{@class = "form-control mr-sm-2"})
                 <button class="btn btn-secondary my-2 my-sm-0" type="submit">Search</button>
-            </form>
+            }
+
             @Html.Partial("_LoginPartial")
 
         </div>

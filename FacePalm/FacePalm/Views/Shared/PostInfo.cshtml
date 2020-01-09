@@ -14,8 +14,16 @@
             <p class="card-text"> @Html.DisplayFor(model => model.ImageDescription) </p>
             <div class="d-flex justify-content-between align-items-center">
                 <div class="btn-group">
-                    <button type="button" class="btn btn-sm btn-outline-secondary"><a href="/Post/Show/@Html.DisplayFor(model => model.PostId)">View Post</a></button>
+                    <button type="button" class="btn btn-sm btn-outline-secondary"><a href="/Post/Show/@Html.DisplayFor(model => model.PostId)">View</a></button>
                     <button type="button" class="addComment btn btn-sm btn-outline-secondary">Add Comment</button>
+                    @if (User.IsInRole("Administrator") || @ViewBag.CurrentUser == Model.UserId)
+                    {
+                       <form method="post" action="/Post/Delete/@Model.PostId">
+                            @Html.HttpMethodOverride(HttpVerbs.Delete)
+                            <button class="btn btn-danger btn-sm tip btn-responsive" type="submit">Delete</button>
+                        </form>
+
+                    }
                 </div>
                 <small class="text-muted">on @Html.DisplayFor(model => model.Date)</small>
 
