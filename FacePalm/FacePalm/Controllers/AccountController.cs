@@ -77,11 +77,11 @@ namespace FacePalm.Controllers
             {
                 case SignInStatus.Success:
                     var appDbContext = new ApplicationDbContext();
-                    if (User.IsInRole("Administrator"))
-                        {
+                    var user = appDbContext.Users.FirstOrDefault(a => a.Email == model.Email);
+                    if (user == null)
+                    {
                         return RedirectToLocal("Index");
                     }
-                    var user = appDbContext.Users.FirstOrDefault(a => a.Email == model.Email);
                     return RedirectToLocal("/User/Show/" + user.UserId);
                 case SignInStatus.LockedOut:
                     return View("Lockout");
