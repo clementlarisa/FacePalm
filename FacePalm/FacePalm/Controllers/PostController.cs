@@ -128,7 +128,10 @@ namespace FacePalm.Controllers
             {
                 return HttpNotFound();
             }
-
+            foreach(Comment com in post.Comments.ToList())
+            {
+                db.Comments.Remove(com);
+            }
             db.Posts.Remove(post);
             db.SaveChanges();
             TempData["message"] = "Post has been successfully deleted!";
