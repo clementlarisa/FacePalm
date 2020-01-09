@@ -173,6 +173,7 @@
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\AlbumController.cs" />
+    <Compile Include="Controllers\CommentController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\PostController.cs" />
@@ -271,7 +272,6 @@
     <Content Include="Views\Post\New.cshtml" />
     <Content Include="Views\Post\Delete.cshtml" />
     <Content Include="Views\Post\Show.cshtml" />
-    <Content Include="Views\Post\Edit.cshtml" />
     <Content Include="Views\Post\Index.cshtml" />
     <Content Include="Views\Shared\PostInfo.cshtml" />
     <Content Include="Views\Album\Index.cshtml" />
@@ -281,6 +281,7 @@
     <Content Include="Views\User\Friends.cshtml" />
     <Content Include="Views\User\FriendRequests.cshtml" />
     <Content Include="Views\Shared\CommentInfo.cshtml" />
+    <Content Include="Views\Comment\Edit.cshtml" />
     <Content Include="Views\Search\Search.cshtml" />
   </ItemGroup>
   <ItemGroup>

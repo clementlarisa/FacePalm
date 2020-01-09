@@ -40,13 +40,23 @@ namespace FacePalm.Controllers
                 return HttpNotFound();
             }
             ViewBag.afisareButoane = false;
-            if (User.IsInRole("Editor") || User.IsInRole("Administrator"))
+            var currentUserId = User.Identity.GetUserId();
+            if (User.IsInRole("Editor") || User.IsInRole("Administrator") || (post.UserId == currentUserId))
             {
                 ViewBag.afisareButoane = true;
             }
+            var usersPost = db.Users.Find(post.UserId);
+            if(usersPost.Friends.Count == 0)
+            {
+                ViewBag.isFriend = false;
+            }
+            else
+            {
+                ViewBag.isFriend = (usersPost.Friends.First(fr => fr.UserId == currentUserId) != null) ? true : false;
 
+            }
             ViewBag.esteAdmin = User.IsInRole("Administrator");
-            ViewBag.utilizatorCurent = User.Identity.GetUserId();
+            ViewBag.CurrentUser = currentUserId;
             ViewBag.numeCreator = db.Users.Find(post.UserId).FirstName;
             return View(post);
         }
@@ -68,75 +78,71 @@ namespace FacePalm.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult New(Post post)
         {
-            if (post.ImageFile != null)
+            try
             {
-                string fileName = Path.GetFileNameWithoutExtension(post.ImageFile.FileName);
-                string extension = Path.GetExtension(post.ImageFile.FileName);
-                fileName = fileName + DateTime.Now.ToString("yymmssfff") + extension;
-                post.ImagePath = "~/Images/" + fileName;
-                fileName = Path.Combine(Server.MapPath("~/Images/"), fileName);
-                post.ImageFile.SaveAs(fileName);
+                if (post.ImageFile != null && post.AlbumId == null)
+                {
+                    throw new System.ArgumentException("You must choose an album!");
+                }
+                else
+                {
+                    if (post.ImageFile != null)
+                    {
+                        string fileName = Path.GetFileNameWithoutExtension(post.ImageFile.FileName);
+                        string extension = Path.GetExtension(post.ImageFile.FileName);
+                        fileName = fileName + DateTime.Now.ToString("yymmssfff") + extension;
+                        post.ImagePath = "~/Images/" + fileName;
+                        fileName = Path.Combine(Server.MapPath("~/Images/"), fileName);
+                        post.ImageFile.SaveAs(fileName);
+                        post.Albums = GetAllAlbums();
+                    }
+                }
+                if (ModelState.IsValid)
+                {
+                    db.Posts.Add(post);
+                    db.SaveChanges();
+                    ModelState.Clear();
+                    return RedirectToAction("../User/Show/" + post.UserId);
+                }
             }
-            post.Albums = GetAllAlbums();
-            if (ModelState.IsValid)
+            catch(Exception ex)
             {
-                db.Posts.Add(post);
-                db.SaveChanges();
-                ModelState.Clear();
-                return RedirectToAction("../User/Show/" + post.UserId);
+                TempData["message"] = $"There has been a problem: /n {ex.ToString()}";
+                ViewBag.message = TempData["message"].ToString();
+                return View("../User/Error");
             }
 
             return View(post);
         }
-
-        // GET: Post/Edit/5
-        public ActionResult Edit(int id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            Post post = db.Posts.Find(id);
-            if (post == null)
-            {
-                return HttpNotFound();
-            }
-            return View(post);
-        }
-
-        // POST: Post/Edit/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "PostId,UserId,ImageDescription,Date")] Post post)
-        {
-            if (ModelState.IsValid)
-            {
-                db.Entry(post).State = EntityState.Modified;
-                db.SaveChanges();
-                return RedirectToAction("Index");
-            }
-            return View(post);
-        }
-
+        
         [HttpDelete]
         [Authorize(Roles = "User, Editor,Administrator")]
         // GET: Post/Delete/5
         public ActionResult Delete(int id)
         {
-            Post post = db.Posts.Find(id);
-            if (post == null)
+            try
             {
-                return HttpNotFound();
+                Post post = db.Posts.Find(id);
+                if (post == null)
+                {
+                    return HttpNotFound();
+                }
+                foreach (Comment com in post.Comments.ToList())
+                {
+                    db.Comments.Remove(com);
+                }
+                db.Posts.Remove(post);
+                db.SaveChanges();
+                TempData["message"] = "Post has been successfully deleted!";
+                return RedirectToAction("Index");
             }
-            foreach(Comment com in post.Comments.ToList())
+            catch(Exception ex)
             {
-                db.Comments.Remove(com);
+                TempData["message"] = $"Something bad happened. {ex.ToString()}";
+                ViewBag.message = TempData["message"].ToString();
+
+                return View("Show");
             }
-            db.Posts.Remove(post);
-            db.SaveChanges();
-            TempData["message"] = "Post has been successfully deleted!";
-            ViewBag.message = TempData["message"].ToString();
-            return RedirectToAction("Show", "User", new { id = User.Identity.GetUserId() });
         }
 
         [NonAction]
@@ -163,30 +169,6 @@ namespace FacePalm.Controllers
 
             // returnam lista de albume
             return selectList;
-        }
-
-        [HttpPost]
-        public ActionResult AddComment(Comment comment)
-        {
-            try
-            {
-
-                var user = db.Users.Find(comment.UserId);
-                comment.User = user;
-                user.Comments.Add(comment);
-                var postIdInt = Int32.Parse(comment.PostId);
-                var post = db.Posts.Find(postIdInt);
-                comment.Post = post;
-                post.Comments.Add(comment);
-                db.Comments.Add(comment);
-                db.SaveChanges();
-
-                return Json(new { success = true });
-            }
-            catch (Exception ex)
-            {
-                return Json(new { success = false });
-            }
         }
     }
 }

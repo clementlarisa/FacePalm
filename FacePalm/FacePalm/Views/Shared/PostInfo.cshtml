@@ -1,15 +1,17 @@
 ﻿@{ICollection<FacePalm.Models.Comment> comments = Model.Comments.ToList();}
 @model FacePalm.Models.Post
+@using FacePalm.Models
 
 
 
-    <div class="col-md-6">
-        @if (Model.ImagePath != null)
-        {
-            <div class="card mb-4 box-shadow">
-                <img class="card-img-top img-responsive" src="@Url.Content(Model.ImagePath)" />
-            </div>
-        }
+<div style="width:90%;">
+    @if (Model.ImagePath != null)
+    {
+        <div style="height: 600px; width: 400px; class="card mb-4 box-shadow">
+            <img style="height: 600px; width: 400px; " class="card-img-top img-responsive" src="@Url.Content(Model.ImagePath)" />
+        </div>
+    }
+        
         <div>
             <p class="card-text"> @Html.DisplayFor(model => model.ImageDescription) </p>
             <div class="d-flex justify-content-between align-items-center">
@@ -25,18 +27,35 @@
 
                     }
                 </div>
-                <small class="text-muted">on @Html.DisplayFor(model => model.Date)</small>
 
+                <!--here comes the text area-->
             </div>
-            <!--here comes the text area-->
-            <div class="list-group">
+            
+            <div>
                 @if (comments.Count > 0)
                 {
-                    for (var i = comments.Count - 1; i > comments.Count - 4; i--)
+                    if (comments.Count >= 3)
                     {
-                        if (i >= 0 && comments.ElementAt(i) != null)
+                        var commsToDisplay = new List<Comment>();
+                        commsToDisplay.Add(comments.ElementAt(comments.Count - 3));
+                        commsToDisplay.Add(comments.ElementAt(comments.Count - 2));
+                        commsToDisplay.Add(comments.ElementAt(comments.Count - 1));
+                        foreach (var comm in commsToDisplay)
                         {
-                            @Html.Partial("CommentInfo", comments.ElementAt(i))
+                            <div>
+                                @Html.Partial("CommentInfo", comm)
+                            </div>
+                            <br />
+                        }
+                    }
+                    else
+                    {
+                        foreach (var comm in comments)
+                        {
+                            <div>
+                                @Html.Partial("CommentInfo", comm)
+                            </div>
+                            <br />
                         }
                     }
                 }
@@ -50,44 +69,41 @@
             event.stopImmediatePropagation();
             var textArea = $('<input display="inline-block" class="form-control" placeholder="Write a comment..." type="text">');
             $(this).parent().parent().parent().append(textArea);
-            var $submitButton = $('<button type="button" class="submitCommentBtn btn btn-sm btn-outline-secondary">Add comment</button>');
+            var $submitButton = $('<button type="button" class="submitCommentBtn btn btn-sm btn-outline-secondary">Add</button>');
             $submitButton.on('click', function (e) {
-        $(".submitCommentBtn").click(function () {
-
-            var textAreaValue = $(this).parent().parent().children().last().children().eq(3).val();
-            var userId = '@ViewBag.CurrentUser';
-            var comment = {
-                PostId: @Model.PostId,
-                UserId: userId,
-                Content: textAreaValue,
-                Date: new Date($.now())
-            };
-            var thisButton = $(this);
-            var thisTextArea = $(this).parent().parent().children().last().children().eq(3);
-            $.ajax({
-                type: 'POST',
-                dataType: 'json',
-                data: JSON.stringify({ "comment": comment }),
-                url: '/Post/AddComment',
-                cache: false,
-                contentType: 'application/json; charset=utf-8',
-                success: function (serverAnswer) {
-                    if (serverAnswer.success) {
-                        thisButton.remove();
-                        thisTextArea.remove();
-                        //Something to add the comm in the list
-                        location.reload();
+                var textAreaValue = $(this).parent().children().eq(3).val();
+                var userId = '@ViewBag.CurrentUser';
+                var comment = {
+                    PostId: @Model.PostId,
+                    UserId: userId,
+                    Content: textAreaValue,
+                    Date: new Date($.now())
+                };
+                var thisButton = $(this);
+                var thisTextArea = $(this).parent().children().eq(3);
+                $.ajax({
+                    type: 'POST',
+                    dataType: 'json',
+                    data: JSON.stringify({ "comment": comment }),
+                    url: '/Comment/New',
+                    cache: false,
+                    contentType: 'application/json; charset=utf-8',
+                    success: function (serverAnswer) {
+                        if (serverAnswer.success) {
+                            thisButton.remove();
+                            thisTextArea.remove();
+                            //Something to add the comm in the list
+                            location.reload();
+                        }
+                        else {
+                            alert("The request couldn't be processed, please try again :(")
+                        }
+                    },
+                    error: function () {
+                        alert("error");
                     }
-                    else {
-                        alert("The request couldn't be processed, please try again :(")
-                    }
-                },
-                error: function () {
-                    alert("error");
-                }
+                });
             });
-        });
-    });
             $(this).parent().parent().parent().append($submitButton);
             $(this).hide();
         });
