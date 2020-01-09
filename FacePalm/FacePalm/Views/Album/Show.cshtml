@@ -16,13 +16,16 @@
         </div>
 
     <div class="btn-group-sm" role="group">
+        @if (ViewBag.afisareButoane == true && Model.UserId == ViewBag.utilizatorCurent)
+        {
         <a class="btn btn-info" href="/Album/Index/">Back to albums</a>
+        }
 
         @if (ViewBag.afisareButoane == true && Model.UserId == ViewBag.utilizatorCurent || ViewBag.esteAdmin)
         {
             using (Html.BeginForm(actionName: "Delete", controllerName: "Album", routeValues: new { id = @Model.AlbumId }))
             {
-                @Html.HttpMethodOverride(HttpVerbs.Delete) 
+                @Html.HttpMethodOverride(HttpVerbs.Delete)
                 <button class="btn btn-danger btn-sm" type="submit">Delete album</button>
             }
         }

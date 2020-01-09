@@ -1,5 +1,5 @@
 ﻿@using Microsoft.AspNet.Identity
-@if (Request.IsAuthenticated && User.IsInRole("User"))
+@if ((Request.IsAuthenticated && User.IsInRole("User")) || User.IsInRole("Administrator"))
 {
     using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm", @class = "navbar-right nav-link" }))
     {

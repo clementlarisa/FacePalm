@@ -1,12 +1,11 @@
-﻿ @ViewBag.Title = "Lista useri";
-}
-<h2>@ViewBag.Title</h2>
+﻿<h2>FacePalm's registered users</h2>
 @foreach (var user in ViewBag.Users)
 {
-    <p>@user.FirstName</p>
-    <p>@user.LastName</p>
-    <p>@user.Email</p>
-    <a href="/User/Show/@user.UserId">Afisare user</a>
+    <p>@user.FirstName @user.LastName</p>
+    <p>Email: @user.Email</p>
+    <p>Birthdate: @user.BirthDate</p>
+    <p>Their profile is: @user.ProfilePrivacy</p>
+    <a href="/User/Show/@user.UserId">User's profile</a>
     <br />
     <hr />
     <br />

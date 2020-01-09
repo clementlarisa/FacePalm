@@ -17,7 +17,7 @@
             </div>
             <div class="col-md-4 userInformations ">
                 <h1><span class="glyphicon glyphicon-asterisk"></span>@ViewBag.User.FirstName @ViewBag.User.LastName</h1>
-                @if (@ViewBag.User.ProfilePrivacy.ToString().ToLower() == "private" && @ViewBag.User.UserId != @ViewBag.CurrentUser && !ViewBag.IsFriend)
+                @if (@ViewBag.User.ProfilePrivacy.ToString().ToLower() == "private" && @ViewBag.User.UserId != @ViewBag.CurrentUser && !ViewBag.IsFriend && !User.IsInRole("Administrator"))
                 {
                     if (ViewBag.FriendRequestStatus)
                     {
@@ -72,7 +72,7 @@
 
         <div class="container" ">
 
-            @if (@ViewBag.User.ProfilePrivacy.ToString().ToLower() == "public" || @ViewBag.User.UserId == @ViewBag.CurrentUser || ViewBag.IsFriend)
+            @if (@ViewBag.User.ProfilePrivacy.ToString().ToLower() == "public" || @ViewBag.User.UserId == @ViewBag.CurrentUser || ViewBag.IsFriend || User.IsInRole("Administrator"))
             {
                 <div class="album py-5 bg-light">
                     <div class="container">

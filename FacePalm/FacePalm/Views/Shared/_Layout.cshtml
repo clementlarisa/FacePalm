@@ -25,6 +25,10 @@
                     <li class="nav-item">@Html.ActionLink("Account Settings", "Edit/" + User.Identity.GetUserId(), "User", null, new { @class = "nav-link" })</li>
                     <li class="nav-item">@Html.ActionLink("My Photo Albums", "Index/", "Album", null, new { @class = "nav-link" })</li>
                 }
+                @if (User.Identity.IsAuthenticated && User.IsInRole("Administrator"))
+                {
+                    <li class="nav-item">@Html.ActionLink("All Users", "Index", "User", null, new { @class = "nav-link" })</li>
+                    <li class="nav-item">@Html.ActionLink("All Posts", "Index", "Post", null, new { @class = "nav-link" })</li>                }
             </ul>
             @using (Html.BeginForm("Search", "Search", FormMethod.Get, new { @class = "form-inline my-2 my-lg-0" }))
             {

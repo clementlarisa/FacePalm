@@ -1,34 +1,23 @@
 ﻿@model FacePalm.Models.Comment
 
-<div class="container"style="background-color:aliceblue;">
-    <div class="row" >
-        <div>
-            <p>@Model.User.FirstName @Model.User.LastName</p>
-        </div><!-- /col-sm-12 -->
-    </div><!-- /row -->
-    <div class="row">
-        <div class="thumbnail">
-            <img src="@Url.Content(Model.User.ImagePath)" style="width: 30px; height:30px;">
-        </div><!-- /thumbnail -->
-        <div>
-            <div class="panel panel-default">
-                <div class="panel-heading">
-                    <span class="text-muted">@Html.DisplayFor(model => model.Date)</span>
-                </div>
-                <div class="panel-body">
-                    @Html.DisplayFor(model => model.Content)
-                </div><!-- /panel panel-default -->
-            </div><!-- /col-sm-5 -->
-            @if (Model.UserId == ViewBag.CurrentUser)
-            {
-                <button type="button" class="btn btn-sm btn-outline-secondary"><a href="/Comment/Edit/@Html.DisplayFor(model => model.CommentId)"> Edit</a></button>
-                
-                <button type="button" class=" deleteComment btn btn-sm btn-outline-secondary"> Delete</button>
-            }
-        </div><!-- /row -->
-    </div><!-- /container -->
-<script>
-    
+<div class="list-group-item list-group-item-action" style="background-color:aliceblue">
+<div class="row media" style="justify-content:space-between">
+    <div class="media-left">
+        <img src="~/Images/profilePictureDefault.png" class="rounded-circle img-responsive" style="width: 60px; height: 60px; border:1px solid 	#78C1AD">
+    </div>
+    <div class="media-body">
+        <h5 class="media-heading"><a href="/User/Show/@Model.User.UserId">@Model.User.FirstName @Model.User.LastName</a></h5>
+        <p class="text-muted" style="font-size:0.7rem">on @Html.DisplayFor(model => model.Date)</p>
+    </div>
+</div><!-- /col-sm-12 -->
+<div class="row" style="justify-content:flex-start; align-content:flex-start">
+    <div style="align-self: auto; flex-grow:1">
+        @Html.DisplayFor(model => model.Content)
+    </div><!-- /panel panel-default -->
+    </div>
+    </div>
+    <script>
+
     $(document).ready(function () {
         $(".deleteComment").click(function (event) {
             event.stopPropagation();
@@ -55,4 +44,4 @@
             });
         })
     });
-</script>
+    </script>

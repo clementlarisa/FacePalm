@@ -4,64 +4,61 @@
 
 
 
-<div style="width:90%;">
+<div class="col-md-6">
     @if (Model.ImagePath != null)
     {
-        <div style="height: 600px; width: 400px; class="card mb-4 box-shadow">
-            <img style="height: 600px; width: 400px; " class="card-img-top img-responsive" src="@Url.Content(Model.ImagePath)" />
+        <div class="card mb-4 box-shadow">
+            <img class="card-img-top img-responsive" src="@Url.Content(Model.ImagePath)" />
         </div>
     }
-        
-        <div>
-            <p class="card-text"> @Html.DisplayFor(model => model.ImageDescription) </p>
-            <div class="d-flex justify-content-between align-items-center">
-                <div class="btn-group">
-                    <button type="button" class="btn btn-sm btn-outline-secondary"><a href="/Post/Show/@Html.DisplayFor(model => model.PostId)">View</a></button>
-                    <button type="button" class="addComment btn btn-sm btn-outline-secondary">Add Comment</button>
-                    @if (User.IsInRole("Administrator") || @ViewBag.CurrentUser == Model.UserId)
-                    {
-                       <form method="post" action="/Post/Delete/@Model.PostId">
-                            @Html.HttpMethodOverride(HttpVerbs.Delete)
-                            <button class="btn btn-danger btn-sm tip btn-responsive" type="submit">Delete</button>
-                        </form>
-
-                    }
-                </div>
-
-                <!--here comes the text area-->
-            </div>
-            
-            <div>
-                @if (comments.Count > 0)
+    <div>
+        <p class="card-text"> @Html.DisplayFor(model => model.ImageDescription) </p>
+        <div class="d-flex justify-content-between align-items-center">
+            <div class="btn-group">
+                <button type="button" class="btn btn-sm btn-outline-secondary"><a href="/Post/Show/@Html.DisplayFor(model => model.PostId)">View</a></button>
+                <button type="button" class="addComment btn btn-sm btn-outline-secondary">Add Comment</button>
+                @if (User.IsInRole("Administrator") || @ViewBag.CurrentUser == Model.UserId)
                 {
-                    if (comments.Count >= 3)
-                    {
-                        var commsToDisplay = new List<Comment>();
-                        commsToDisplay.Add(comments.ElementAt(comments.Count - 3));
-                        commsToDisplay.Add(comments.ElementAt(comments.Count - 2));
-                        commsToDisplay.Add(comments.ElementAt(comments.Count - 1));
-                        foreach (var comm in commsToDisplay)
-                        {
-                            <div>
-                                @Html.Partial("CommentInfo", comm)
-                            </div>
-                            <br />
-                        }
-                    }
-                    else
-                    {
-                        foreach (var comm in comments)
-                        {
-                            <div>
-                                @Html.Partial("CommentInfo", comm)
-                            </div>
-                            <br />
-                        }
-                    }
+                    <form method="post" action="/Post/Delete/@Model.PostId">
+                        @Html.HttpMethodOverride(HttpVerbs.Delete)
+                        <button class="btn btn-danger btn-sm tip btn-responsive" type="submit">Delete</button>
+                    </form>
+
                 }
             </div>
+            <small class="text-muted">on @Html.DisplayFor(model => model.Date)</small>
+            <!--here comes the text area-->
+        </div>
+
+        <div>
+            @if (comments.Count > 0)
+            {
+                if (comments.Count >= 3)
+                {
+                    var commsToDisplay = new List<Comment>();
+                    commsToDisplay.Add(comments.ElementAt(comments.Count - 3));
+                    commsToDisplay.Add(comments.ElementAt(comments.Count - 2));
+                    commsToDisplay.Add(comments.ElementAt(comments.Count - 1));
+                    foreach (var comm in commsToDisplay)
+                    {
+                        <div>
+                            @Html.Partial("CommentInfo", comm)
+                        </div>
+                    }
+                }
+                else
+                {
+                    foreach (var comm in comments)
+                    {
+                        <div>
+                            @Html.Partial("CommentInfo", comm)
+                        </div>
+                    }
+                }
+            }
         </div>
     </div>
+</div>
 <script>
     $(document).ready(function () {
         $(".addComment").click(function (event) {
@@ -109,5 +106,5 @@
         });
 
     });
-    
+
 </script>
