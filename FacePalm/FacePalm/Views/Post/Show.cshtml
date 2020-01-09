@@ -14,14 +14,17 @@
         <dt>
             @Html.DisplayNameFor(model => model.ImageDescription)
         </dt>
+
         <dd>
             @Html.DisplayFor(model => model.ImageDescription)
         </dd>
-
-        <dd>
-            <img src="@Url.Content(Model.ImagePath)" class="img-responsive" />
-        </dd>
-    </dl>
+        @if (Model.ImagePath != null)
+        {
+            <dd>
+                <img src="@Url.Content(Model.ImagePath)" class="img-responsive" />
+            </dd>
+        }
+        </dl>
 
     @if (ViewBag.afisareButoane == true && Model.UserId == ViewBag.utilizatorCurent
 || ViewBag.esteAdmin)

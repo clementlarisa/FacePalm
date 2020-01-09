@@ -6,6 +6,13 @@
 <h2>Edit my profile</h2>
 
 <form method="post" action="/User/Edit/@Model.UserId">
+    <div class="form-group">
+        @Html.LabelFor(model => model.ImagePath, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            <input type="file" name="ImageFile" />
+        </div>
+    </div>
+
     @Html.HttpMethodOverride(HttpVerbs.Put)
     <input type="hidden" name="Email" value="@Model.Email" />
     <input type="hidden" name="UserId" value="@Model.UserId" />

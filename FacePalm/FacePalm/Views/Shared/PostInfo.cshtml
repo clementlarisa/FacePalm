@@ -3,49 +3,51 @@
 
 
 
-<div style="width:90%;">
-    <div style ="height: 600px; width: 400px;  class="card mb-4 box-shadow">
-        <img style ="height: 600px; width: 400px; "class="card-img-top img-responsive" src="@Url.Content(Model.ImagePath)" />
-    </div>
-    <div>
-        <span><p class="card-text"> @Html.DisplayFor(model => model.ImageDescription) </p></span>
-        <div class="d-flex justify-content-between align-items-center">
-            <div class="btn-group">
-                <button type="button" class="btn btn-sm btn-outline-secondary"><a href="/Post/Show/@Html.DisplayFor(model => model.PostId)">View</a></button>
-                <button type="button" class="btn btn-sm btn-outline-secondary"><a href="/Post/Edit/@Html.DisplayFor(model => model.PostId)"> Edit</a></button>
-                <button type="button" class="addComment btn btn-sm btn-outline-secondary">Add comment</button>
+    <div class="col-md-6">
+        @if (Model.ImagePath != null)
+        {
+            <div class="card mb-4 box-shadow">
+                <img class="card-img-top img-responsive" src="@Url.Content(Model.ImagePath)" />
             </div>
-            <small class="text-muted">@Html.DisplayFor(model => model.Date)</small>
-
-        </div>
-        <!--here comes the text area-->
+        }
         <div>
-            @if (comments.Count > 0)
-            {
-                foreach (var comm in comments)
+            <p class="card-text"> @Html.DisplayFor(model => model.ImageDescription) </p>
+            <div class="d-flex justify-content-between align-items-center">
+                <div class="btn-group">
+                    <button type="button" class="btn btn-sm btn-outline-secondary"><a href="/Post/Show/@Html.DisplayFor(model => model.PostId)">View Post</a></button>
+                    <button type="button" class="addComment btn btn-sm btn-outline-secondary">Add Comment</button>
+                </div>
+                <small class="text-muted">on @Html.DisplayFor(model => model.Date)</small>
+
+            </div>
+            <!--here comes the text area-->
+            <div class="list-group">
+                @if (comments.Count > 0)
                 {
-                    <div>
-                        @Html.Partial("CommentInfo", comm)
-                    </div>
-                    <br />
+                    for (var i = comments.Count - 1; i > comments.Count - 4; i--)
+                    {
+                        if (i >= 0 && comments.ElementAt(i) != null)
+                        {
+                            @Html.Partial("CommentInfo", comments.ElementAt(i))
+                        }
+                    }
                 }
-            }
+            </div>
         </div>
     </div>
-</div>
 <script>
     $(document).ready(function () {
         $(".addComment").click(function (event) {
             event.stopPropagation();
             event.stopImmediatePropagation();
-            var textArea = $('<textarea rows = "4" cols = "100%" id = "comment" class="d-flex justify-content-between align-items-center"/>');
+            var textArea = $('<input display="inline-block" class="form-control" placeholder="Write a comment..." type="text">');
             $(this).parent().parent().parent().append(textArea);
-            var $submitButton = $('<button type="button" class="submitCommentBtn btn btn-sm btn-outline-secondary">Add</button>');
+            var $submitButton = $('<button type="button" class="submitCommentBtn btn btn-sm btn-outline-secondary">Add comment</button>');
             $submitButton.on('click', function (e) {
         $(".submitCommentBtn").click(function () {
 
             var textAreaValue = $(this).parent().parent().children().last().children().eq(3).val();
-            var userId = '@ViewBag.User.UserId';
+            var userId = '@ViewBag.CurrentUser';
             var comment = {
                 PostId: @Model.PostId,
                 UserId: userId,

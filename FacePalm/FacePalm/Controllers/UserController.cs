@@ -2,6 +2,7 @@
 using Microsoft.AspNet.Identity;
 using System;
 using System.Data.Entity;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web.Mvc;
@@ -91,8 +92,18 @@ namespace FacePalm.Controllers
                     ViewBag.User = user;
                     if (user.UserId == User.Identity.GetUserId() || User.IsInRole("Administrator"))
                     {
+                        
                         if (TryUpdateModel(user))
                         {
+                            if(requestUser.ImageFile!=null)
+                            {
+                                string fileName = Path.GetFileNameWithoutExtension(requestUser.ImageFile.FileName);
+                                string extension = Path.GetExtension(requestUser.ImageFile.FileName);
+                                fileName = fileName + DateTime.Now.ToString("yymmssfff") + extension;
+                                user.ImagePath = "~/Images/" + fileName;
+                                fileName = Path.Combine(Server.MapPath("~/Images/"), fileName);
+                                user.ImageFile.SaveAs(fileName);
+                            }
                             if (!String.IsNullOrEmpty(requestUser.FirstName))
                             {
                                 user.FirstName = requestUser.FirstName;

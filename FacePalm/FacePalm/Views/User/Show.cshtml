@@ -73,11 +73,11 @@
             {
                 <div class="album py-5 bg-light">
                     <div class="container">
-                        <h3>See @ViewBag.User.FirstName's albums</h3>
+                        <h3>@ViewBag.User.FirstName's albums</h3>
                         <ul class="list-group">
                             @foreach (FacePalm.Models.Album al in ViewBag.Albums)
                             {
-                                <li class="list-group-item"><a class="btn btn-link" href="/Album/Show/@al.AlbumId">@al.AlbumTitle</a></li>
+                            <span class="row-cols-lg-3"><li class="list-group-item"><a class="btn btn-link" href="/Album/Show/@al.AlbumId">@al.AlbumTitle</a></li></span>
                             }
                         </ul>
 
@@ -92,12 +92,13 @@
                                 <br /><br />
                             }
                             <div class="container">
-                                <div class="row" style="width:90%;">
+                                <div class="row">
                                     @foreach (FacePalm.Models.Post post in ViewBag.Posts)
                                     {
                                         
                                             @Html.Partial("PostInfo", post)
-                                        
+                                        <br />
+                                        <br />
                                     }
                                 </div>
                             </div>
