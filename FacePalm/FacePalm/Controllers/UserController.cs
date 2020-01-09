@@ -26,6 +26,10 @@ namespace FacePalm.Controllers
         [Authorize(Roles = "User,Editor,Administrator")]
         public ActionResult Show(string id)
         {
+            if (TempData.ContainsKey("message"))
+            {
+                ViewBag.message = TempData["message"].ToString();
+            }
             User user = _applicationDBContext.Users.Find(id);
             var posts = _applicationDBContext.Posts.Where(p => p.UserId == id);
             var albums = _applicationDBContext.Albums.Where(a => a.UserId == id);

@@ -119,7 +119,7 @@ namespace FacePalm.Controllers
         }
 
         [HttpDelete]
-        [Authorize(Roles = "Editor,Administrator")]
+        [Authorize(Roles = "User, Editor,Administrator")]
         // GET: Post/Delete/5
         public ActionResult Delete(int id)
         {
@@ -135,7 +135,8 @@ namespace FacePalm.Controllers
             db.Posts.Remove(post);
             db.SaveChanges();
             TempData["message"] = "Post has been successfully deleted!";
-            return RedirectToAction("Index");
+            ViewBag.message = TempData["message"].ToString();
+            return RedirectToAction("Show", "User", new { id = User.Identity.GetUserId() });
         }
 
         [NonAction]

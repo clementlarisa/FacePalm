@@ -1,0 +1,28 @@
+﻿@model IEnumerable<FacePalm.Models.Search>
+@{
+    ViewBag.Title = "Search Results For";
+}
+
+<h2>@ViewBag.Title "@ViewBag.SearchText"</h2>
+
+    <div class="row">
+        @foreach (var searchResult in Model)
+        {
+            <div class="col-xs-12 col-sm-6 col-md-4">
+                    <div class="card">
+                        <div class="card-body text-center text-capitalize">
+                            @if (!string.IsNullOrEmpty(searchResult.user.ImagePath))
+                            {
+                                <img class="rounded-circle img-fluid" style="width: 80px; height: 80px; border:1px solid 	#78C1AD" src="~/Images/profilePictureDefault.png" />
+                            }
+                            else
+                            {
+                                <img class="rounded-circle img-fluid" style="width: 80px; height: 80px; border:1px solid 	#78C1AD" src="@Url.Content(ViewBag.User.ImagePath)">
+                            }
+                            <p class="card-title">@Html.ActionLink(searchResult.user.FirstName + " " + searchResult.user.LastName, "Show", "User", new { @id = searchResult.user.UserId }, null)</p>
+                        </div>
+                    </div><!-- /col-sm-12 -->
+                </div>
+                }
+            </div>
+
