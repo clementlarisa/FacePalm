@@ -52,7 +52,7 @@ namespace FacePalm.Controllers
             }
             else
             {
-                ViewBag.isFriend = (usersPost.Friends.First(fr => fr.UserId == currentUserId) != null) ? true : false;
+                ViewBag.isFriend = (usersPost.Friends.FirstOrDefault(fr => fr.UserId == currentUserId) != null) ? true : false;
 
             }
             ViewBag.esteAdmin = User.IsInRole("Administrator");
