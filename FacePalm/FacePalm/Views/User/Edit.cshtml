@@ -16,44 +16,64 @@
     @Html.HttpMethodOverride(HttpVerbs.Put)
     <input type="hidden" name="Email" value="@Model.Email" />
     <input type="hidden" name="UserId" value="@Model.UserId" />
-    @Html.Label("FirstName", "First name")
-    <br />
-    @Html.Editor("FirstName")
-    <br /><br />
-    @Html.Label("LastName", "Last name")
-    <br />
-    @Html.Editor("LastName")
-    <br /><br />
-    @Html.Label("Birthdate", "Birthdate")
-    <br />
-    @Html.Editor("BirthDate")
-    <br /><br />
-    @Html.Label("Education", "Education")
-    <br />
-    @Html.Editor("Education")
-    <br /><br />
-    @Html.Label("Job", "Job")
-    <br />
-    @Html.Editor("Job")
-    <br /><br />
-    @Html.Label("Gender", "Gender")
-    <br />
-    @Html.DropDownListFor(m => m.Gender, new SelectList(Enum.GetValues(typeof(FacePalmEnums.GenderTypes))), new { @class = "form-control" })
-    <br /><br />
-    @Html.Label("RelationshipStatus", "Relationship status")
-    <br />
-    @Html.DropDownListFor(m => m.RelationshipStatus, new SelectList(Enum.GetValues(typeof(FacePalmEnums.RelationshipStatus))), new { @class = "form-control" })
-    <br /><br />
-    @Html.Label("ProfilePrivacy", "Profile privacy")
-    <br />
-    @Html.DropDownListFor(m => m.ProfilePrivacy, new SelectList(Enum.GetValues(typeof(FacePalmEnums.ProfilePrivacyTypes))), new { @class = "form-control" })
-    <br /><br />
-    <button type="submit">Make changes</button>
+    <div class="form-group">
+        @Html.LabelFor(m => m.FirstName, new { @class = "col-md-2 control-label" })
+        <div class="col-md-10">
+            @Html.TextBoxFor(m => m.FirstName, new { @class = "form-control" })
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.LastName, new { @class = "col-md-2 control-label" })
+        <div class="col-md-10">
+            @Html.TextBoxFor(m => m.LastName, new { @class = "form-control" })
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.BirthDate, new { @class = "col-md-2 control-label" })
+        <div class="col-md-10">
+            @Html.TextBoxFor(m => m.BirthDate, new { @class = "form-control" })
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.Education, new { @class = "col-md-2 control-label" })
+        <div class="col-md-10">
+            @Html.TextBoxFor(m => m.Education, new { @class = "form-control" })
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.Job, new { @class = "col-md-2 control-label" })
+        <div class="col-md-10">
+            @Html.TextBoxFor(m => m.Job, new { @class = "form-control" })
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.Label("Gender", "Gender")
+        <div class="col-md-10">
+
+            @Html.DropDownListFor(m => m.Gender, new SelectList(Enum.GetValues(typeof(FacePalmEnums.GenderTypes))), new { @class = "form-control" })
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.Label("RelationshipStatus", "Relationship status")
+        <div class="col-md-10">
+            @Html.DropDownListFor(m => m.RelationshipStatus, new SelectList(Enum.GetValues(typeof(FacePalmEnums.RelationshipStatus))), new { @class = "form-control" })
+        </div>
+    </div>
+    <div class="form-group">
+
+        @Html.Label("ProfilePrivacy", "Profile privacy")
+        <div class="col-md-10">
+            @Html.DropDownListFor(m => m.ProfilePrivacy, new SelectList(Enum.GetValues(typeof(FacePalmEnums.ProfilePrivacyTypes))), new { @class = "form-control" })
+            </div>
+        </div>
+        <button class="btn btn-success" type="submit">Make changes</button>
 </form>
 
 <form method="post" action="/User/Delete/@ViewBag.User.UserId">
     @Html.HttpMethodOverride(HttpVerbs.Delete)
-    <button class="btn btn-danger" type="submit"> Delete user</button>
+    <br/>
+    <br/>
+    <button class="btn btn-danger" type="submit"> Delete my account :( </button>
 </form>
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")

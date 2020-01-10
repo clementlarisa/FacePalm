@@ -21,7 +21,7 @@
     <div style="align-self: auto; flex-grow:1">
         @Html.DisplayFor(model => model.Content)
     </div><!-- /panel panel-default -->
-    @if (Model.UserId == ViewBag.CurrentUser)
+    @if ((Model.UserId == ViewBag.CurrentUser) || User.IsInRole("Administrator"))
     {
         <button type="button" class="btn btn-sm btn-outline-secondary"><a href="/Comment/Edit/@Html.DisplayFor(model => model.CommentId)"> Edit</a></button>
 
