@@ -21,10 +21,11 @@
                 <!-- Modal Adding Users-->
                 <div class="modal fade" id="myModal" role="dialog">
                     <div class="modal-dialog">
-
+                        
                         <!-- Modal content-->
                         <div class="modal-content">
                             <div class="modal-header">
+                                <input type="text" id="groupNameInput" class="form-control" placeholder="Group Name">
                                 <button type="button" class="close" data-dismiss="modal">&times;</button>
                             </div>
                             <div class="modal-body">
@@ -111,7 +112,7 @@
 
               members.push('@ViewBag.CurrentUser');
 
-              var name = "Default1 Add Later";
+              var name = $("#groupNameInput").val();
         
            $.ajax({
                type: 'POST',
@@ -123,7 +124,6 @@
                success: function (serverAnswer) {
                    if (serverAnswer.success) {
 
-                       alert(serverAnswer.count);
                        location.reload();
                        
                    }
@@ -155,8 +155,7 @@
                success: function (serverAnswer) {
                    if (serverAnswer.success) {
 
-                       
-                       location.reload();
+                      
                        
                    }
                    else

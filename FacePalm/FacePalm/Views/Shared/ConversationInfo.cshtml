@@ -17,14 +17,32 @@
 
     var selectedConv = -1;
     $(document).ready(function () {
-        $(".chat_list").click(function () {
 
+        window.setInterval(function () {
+            updater();
+        }, 2000);
+
+        $(".chat_list").click(function () {
+            $(this).addClass("active_chat");
             var id = $(this).attr("id");
+
+            if (selectedConv != -1)
+            {
+                $("#" + selectedConv).removeClass("active_chat");
+            }
             selectedConv = id;
+            updater();
+        });
+
+
+        var updater = function () {
+            if (selectedConv == -1)
+                return;
+
             $.ajax({
                 type: 'POST',
                 dataType: 'json',
-                data: JSON.stringify({ "id": id}),
+                data: JSON.stringify({ "id": selectedConv}),
                 url: '/Conversation/GetConversation',
                 cache: false,
                 contentType: 'application/json; charset=utf-8',
@@ -41,9 +59,6 @@
                                 direction = "right";
                             var html = "<div style=\"clear:both;float:" + direction + "\"class=\"sent_msg\"> <span class=\"time_date\">" + message.autor + "</span> <p>" + message.text + "</p> <span class=\"time_date\">" + message.date + "</span> </div>";
                             $("#mesajeConversatie").append(html);
-
-
-
                         }
 
                     }
@@ -55,9 +70,6 @@
                     alert("error");
                 }
             });
-
-
-
-        });
+        }
     });
 </script>
