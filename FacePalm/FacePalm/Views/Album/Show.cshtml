@@ -1,16 +1,17 @@
 ﻿@model FacePalm.Models.Album
 
-    <h2>@Model.AlbumTitle</h2>
-    <div class="album py-5 bg-light">
+    <div class="album py-5 bg-light" style="opacity:0.9">
+        <h2>@ViewBag.numeCreator's album: @Model.AlbumTitle</h2>
+        <hr class="my-4" />
         <div class="container">
             <div class="row">
                 @foreach (FacePalm.Models.Post post in ViewBag.Posts)
                 {
                     @Html.Partial("PostInfo", post)
                 }
-                </div>
             </div>
         </div>
+    </div>
 
     <div class="btn-group-sm" role="group">
         @if (ViewBag.afisareButoane == true && Model.UserId == ViewBag.utilizatorCurent)

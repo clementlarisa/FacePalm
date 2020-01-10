@@ -1,6 +1,6 @@
 ﻿@model FacePalm.Models.Post
 @{ICollection<FacePalm.Models.Comment> comments = Model.Comments.ToList();}
-    <div class="jumbotron">
+    <div class="jumbotron" style="opacity:0.9">
         <h4>@ViewBag.numeCreator's post</h4>
         <p style="font-size:0.9rem; color:#5a5a5a">
             on @Html.DisplayFor(model => model.Date)
@@ -27,7 +27,7 @@
         @if ((ViewBag.afisareButoane == true && Model.UserId == ViewBag.CurrentUser) || ViewBag.esteAdmin)
         {
             @Html.HttpMethodOverride(HttpVerbs.Delete)
-            <button class="btn btn-success" type="submit"><a style="color:white" href="/Post/Delete/@Model.PostId">Delete post</a></button>
+            <button class="btn btn-danger" type="submit"><a style="color:white" href="/Post/Delete/@Model.PostId">Delete post :(</a></button>
         }
         @if (Model.UserId == ViewBag.CurrentUser || ViewBag.isFriend)
         {
