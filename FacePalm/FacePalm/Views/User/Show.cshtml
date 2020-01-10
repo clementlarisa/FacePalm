@@ -4,6 +4,13 @@
         {
             <h3 class="alert alert-info" role="alert">@ViewBag.message</h3>
         }
+        @if(ViewBag.Warnings!=null && (ViewBag.CurrentUser == ViewBag.User.UserId))
+        {
+            foreach(string warning in ViewBag.Warnings)
+            {
+                <h3 class="alert alert-danger" role="alert">FacePalm: @warning</h3>
+            }
+        }
         <div class="user clearfix row">
             <div class="col-md-4 avatar">
                 @if (string.IsNullOrEmpty(ViewBag.User.ImagePath))
@@ -70,9 +77,17 @@
                     }
                     @if (User.IsInRole("Administrator"))
                     {
+                        using (Html.BeginForm("SendWarning", "User", FormMethod.Post, new { @class = "form-inline my-2 my-lg-0" }))
+                        {
+                        <input type="hidden" class="form-control" maxlength="20" id="id" name="id" placeholder="" value="@(ViewBag.User.UserId)">
+                            <div class="form-group">
+                        @Html.TextBox("warning", "", new { @class = "form-control" })
+                        <button class="btn btn-warning" type="submit">Send Warning</button>
+                    </div>
+                        }
                         <form method="post" action="/User/Delete/@ViewBag.User.UserId">
                             @Html.HttpMethodOverride(HttpVerbs.Delete)
-                            <button class="btn btn-danger" type="submit"> Delete user</button>
+                            <button class="btn btn-danger btn-block" type="submit">Delete user</button>
                         </form>
                     }
                 </div>
