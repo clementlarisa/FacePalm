@@ -1,6 +1,7 @@
 ﻿using FacePalm.Models;
 using Microsoft.AspNet.Identity;
 using System;
+using System.Collections.Generic;
 using System.Data.Entity;
 using System.IO;
 using System.Linq;
@@ -340,6 +341,29 @@ namespace FacePalm.Controllers
                 return Json(new { success = true });
             }
             catch (Exception ex)
+            {
+                return Json(new { success = false });
+            }
+        }
+
+        [HttpPost]
+        public ActionResult SendMessage(FriendRequest requestData)
+        {
+            try
+            {
+                Conversation conv = new Conversation();
+                var userFrom = _applicationDBContext.Users.Find(requestData.FromUserId);
+                var userTo = _applicationDBContext.Users.Find(requestData.ToUserId);
+                conv.Users.Add(userFrom);
+                conv.Users.Add(userTo);
+                var chat = _applicationDBContext.Chats.Find(userFrom.Chat.ChatId);
+              //  conv.Chat = chat;
+                chat.Conversations.Add(conv);
+                _applicationDBContext.Conversations.Add(conv);
+                _applicationDBContext.SaveChanges();
+                return Json(new { success = true });
+            }
+            catch(Exception ex)
             {
                 return Json(new { success = false });
             }

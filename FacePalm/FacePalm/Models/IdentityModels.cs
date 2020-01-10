@@ -33,6 +33,8 @@ namespace FacePalm.Models
         public DbSet<Post> Posts { get; set; }
         public DbSet<Friendship> Friendship { get; set; }
         public DbSet<FriendRequest> FriendRequests { get; set; }
+        public DbSet<Chat> Chats { get; set; }
+        public DbSet<ChatConversations> ChatConversations { get; set; }
 
         public static ApplicationDbContext Create()
         {
@@ -46,10 +48,23 @@ namespace FacePalm.Models
                         .HasKey(fs =>
                                     new { fs.FirstUserId, fs.SecondUserId }
                                 );
+            modelBuilder.Entity<ChatConversations>()
+                        .HasKey(fs =>
+                                    new { fs.ChatId, fs.ConversationId }
+                                );
             modelBuilder.Entity<FriendRequest>()
                         .HasKey(fs =>
                                     new { fs.FromUserId, fs.ToUserId }
                                 );
+
+            modelBuilder.Entity<Chat>()
+                .HasRequired(s => s.User)
+                .WithRequiredPrincipal(ad => ad.Chat);
+            
+            modelBuilder.Entity<Conversation>()
+                .HasMany<Message>(g => g.Messages)
+                .WithRequired(s => s.Conversation)
+                .WillCascadeOnDelete();
 
         }
     }

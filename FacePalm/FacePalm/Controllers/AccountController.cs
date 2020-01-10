@@ -169,15 +169,15 @@ namespace FacePalm.Controllers
                     RelationshipStatus = model.RelationshipStatus,
                     ProfilePrivacy = model.ProfilePrivacy,
                     ImageFile = null,
-                    ImagePath = "~/Images/profilePictureDefault.png",
+                    ImagePath = "/Images/profilePictureDefault.png",
                     Friends = null,
                     AlbumsIds = null,
                     ConversationsIds = null,
                     GroupsIds = null,
                     Posts = null,
-                    Comments = null
+                    Comments = null,
+                    Chat = new Chat()
                 };
-
                 if (result.Succeeded)
                 {
                     await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
@@ -191,6 +191,7 @@ namespace FacePalm.Controllers
 
                     var appDbContext = new ApplicationDbContext();
                     appDbContext.Users.Add(userToDB);
+                    appDbContext.Chats.Add(userToDB.Chat);
                     appDbContext.SaveChanges();
                     return RedirectToAction("Show/" + user.Id, "User");
                 }

@@ -48,13 +48,14 @@
                 <div class="btn-group">
                     @if ((@ViewBag.User.UserId != @ViewBag.CurrentUser && ViewBag.isFriend) || (User.IsInRole("Administrator") || @ViewBag.User.UserId == @ViewBag.CurrentUser))
                     {
-                        <button class="btn btn-default btn-sm tip btn-responsive" title="" data-original-title="Friends"><span class="glyphicon glyphicon-plus glyphicon glyphicon-white"></span><a href="/User/Friends/@ViewBag.User.UserId"> Friends</a></button>
+                        <button class="btn btn-default btn-sm tip btn-responsive" title="" data-original-title="Friends"><span class="glyphicon glyphicon-plus glyphicon glyphicon-white"><a href="/User/Friends/@ViewBag.User.UserId"> Friends</a></span></button>
                     }
-                    <button class="btn btn-default btn-sm tip btn-responsive" title="" data-original-title="Send message"><span class="glyphicon glyphicon-envelope glyphicon glyphicon-white"></span><a href="/User/Message"> Message</a></button>
+
                     @if (@ViewBag.User.UserId != @ViewBag.CurrentUser && ViewBag.isFriend)
                     {
-
-                        <button style="color:black" id="@ViewBag.User.UserId" class=" deleteFriend btn btn-default btn-sm tip btn-responsive" title="" data-original-title="Delete friend"><span class="glyphicon glyphicon-envelope glyphicon glyphicon-white"></span> Delete friend</button>
+                        @Html.Hidden("RedirectTo", Url.Action("Index", "Chat"))
+                        <button style="color:black" id="sendMessage" class="btn btn-default btn-sm tip btn-responsive" title="" data-original-title="Send message"><span class="glyphicon glyphicon-envelope glyphicon glyphicon-white">Send message</span></button>
+                        <button style="color:black" id="@ViewBag.User.UserId" class=" deleteFriend btn btn-default btn-sm tip btn-responsive" title="" data-original-title="Delete friend"><span class="glyphicon glyphicon-envelope glyphicon glyphicon-white"> Delete friend</span></button>
                     }
                     @if (User.IsInRole("Administrator") || @ViewBag.User.UserId == @ViewBag.CurrentUser)
                     {
@@ -173,5 +174,37 @@
             }
         });
         })
+    });
+
+    $(document).ready(function() {
+       $("#sendMessage").click(function() {
+
+           var requestData = {
+               FromUserId: '@ViewBag.CurrentUser',
+               ToUserId: '@ViewBag.User.UserId',
+           };
+           $.ajax({
+               type: 'POST',
+               dataType: 'json',
+               data: JSON.stringify({ "requestData": requestData }),
+               url: '/User/SendMessage',
+               cache: false,
+               contentType: 'application/json; charset=utf-8',
+               success: function (serverAnswer) {
+                   if (serverAnswer.success) {
+                       var url = $("#RedirectTo").val();
+                       location.href = url;
+                   }
+                   else
+                   {
+                       alert("The request couldn't be processed, please try again :(")
+                   }
+               },
+               error: function () {
+                   alert("error");
+               }
+           });
+
+        });
     });
 </script>

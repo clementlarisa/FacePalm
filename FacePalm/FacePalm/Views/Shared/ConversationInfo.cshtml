@@ -1,0 +1,63 @@
+﻿
+
+
+@foreach (var conversation in @ViewBag.Conversations)
+{
+    <div id="@conversation.ConversationId" class="chat_list">
+        <div class="chat_people">
+            <div class="chat_img"> <img src="~/Images/palmBackground.png" alt="image"> </div>
+            <div class="chat_ib">
+                <h5>@conversation.Name</h5>
+            </div>
+        </div>
+    </div>
+}
+
+<script>
+
+    var selectedConv = -1;
+    $(document).ready(function () {
+        $(".chat_list").click(function () {
+
+            var id = $(this).attr("id");
+            selectedConv = id;
+            $.ajax({
+                type: 'POST',
+                dataType: 'json',
+                data: JSON.stringify({ "id": id}),
+                url: '/Conversation/GetConversation',
+                cache: false,
+                contentType: 'application/json; charset=utf-8',
+                success: function (serverAnswer) {
+                    if (serverAnswer.success) {
+
+                        $("#mesajeConversatie").empty();
+                        var messages = jQuery.parseJSON(serverAnswer.conv);
+                        for (var i = 0, l = messages.length; i < l; i++) {
+                            var message = messages[i];
+
+                            var direction = "left";
+                            if (message.uid === '@ViewBag.currentUser')
+                                direction = "right";
+                            var html = "<div style=\"clear:both;float:" + direction + "\"class=\"sent_msg\"> <span class=\"time_date\">" + message.autor + "</span> <p>" + message.text + "</p> <span class=\"time_date\">" + message.date + "</span> </div>";
+                            $("#mesajeConversatie").append(html);
+
+
+
+                        }
+
+                    }
+                    else {
+                        alert(serverAnswer.message);
+                    }
+                },
+                error: function () {
+                    alert("error");
+                }
+            });
+
+
+
+        });
+    });
+</script>

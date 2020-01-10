@@ -8,6 +8,7 @@ namespace FacePalm.Models
         public int MessageId { get; set; }
         [Required]
         public string UserId { get; set; }
+        public virtual User User { get; set; }
         [Required]
         public string Content { get; set; }
         public int ConverstionId { get; set; }

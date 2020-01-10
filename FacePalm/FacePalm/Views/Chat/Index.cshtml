@@ -1,0 +1,180 @@
+﻿@model FacePalm.Models.Chat
+
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+
+<div class="containerChat">
+    </br>
+    <div class="messaging">
+        <div class="inbox_msg">
+            <div class="inbox_people">
+                <div class="headind_srch">
+                    @*@using (Html.BeginForm("Search", "Search", FormMethod.Get, new { @class = "form-inline my-2 my-lg-0" }))
+            {
+                @Html.TextBox("searchText", "", new { @class = "form-control mr-sm-2" })
+                <button class="btn btn-secondary my-2 my-sm-0" type="submit">Search</button>
+            }*@
+                    <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal">New Conversation</button>
+
+                </div>
+                <!-- Modal Adding Users-->
+                <div class="modal fade" id="myModal" role="dialog">
+                    <div class="modal-dialog">
+
+                        <!-- Modal content-->
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                            </div>
+                            <div class="modal-body">
+
+                                @if (ViewBag.Friends.Count > 0)
+                                {
+                                    <ul>
+                                        @foreach (var friend in @ViewBag.Friends)
+                                        {
+
+                                            <div style="margin-top:20px" class="checkbox-wrapper">
+                                                <input style="clear:left; float:left;margin-top: 25px; margin-right: 10px;" type="checkbox" name="friendCB" value="@friend.UserId" />
+                                                <img style="width:40px; height:60px; float:left; margin-right: 10px;" src="/@friend.ImagePath" class="img-thumbnail img-profile" />
+                                                <h3 style="float:left; margin-right: 10px;">@friend.FirstName @friend.LastName </h3>
+                                                <button style="float:left; margin-top:15px;" class="btn btn-default btn-sm tip btn-responsive" title="" data-original-title="See profile"><span class="glyphicon glyphicon-envelope glyphicon glyphicon-white"></span><a href="/User/Show/@friend.UserId"> See profile</a></button>
+                                            </div>
+                                            <br />
+                                            <br />
+
+                                        }
+                                    </ul>
+                                }
+                                else
+                                {
+                                    <p> You don't have a friend at the moment.</p>
+                                    <img src="~/Images/sadPalm2.jpg" />
+                                }
+
+
+
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                <button type="button" class="btn btn-info" id="modalCreateConversation"> Create Conversation</button>
+
+
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+                <div class="inbox_chat">
+                    <!--html partial la useri/grupuri-->
+                    @if (ViewBag.Conversations.Count != 0)
+                    {
+                        @Html.Partial("ConversationInfo");
+
+                    }
+                    else
+                    {
+                        <p>There are no conversations yet.</p>
+                    }
+                </div>
+            </div>
+            <div class="mesgs">
+                    <div id="mesajeConversatie" style="overflow:scroll; height:500px;">
+                    
+                    </div>
+                    <div class="type_msg">
+                        <div class="input_msg_write">
+                            <input  id="inputMsg" style="width:500px; max-width:500px; background-color:white;" type="text" class="write_msg" placeholder="Type a message" />
+                            <button id="msgSender" class="msg_send_btn" type="button"><i class="fa fa-paper-plane-o" aria-hidden="true"></i></button>
+                        </div>
+                    </div>
+                
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<script>
+
+
+      $(document).ready(function() {
+          $("#modalCreateConversation").click(function () {
+
+              var members = new Array();
+
+              $("input:checkbox[name=friendCB]:checked").each(function () {
+                  members.push($(this).val());
+              });
+
+              members.push('@ViewBag.CurrentUser');
+
+              var name = "Default1 Add Later";
+        
+           $.ajax({
+               type: 'POST',
+               dataType: 'json',
+               data: JSON.stringify({ "members": members, "name": name }),
+               url: '/Conversation/CreateConversation',
+               cache: false,
+               contentType: 'application/json; charset=utf-8',
+               success: function (serverAnswer) {
+                   if (serverAnswer.success) {
+
+                       alert(serverAnswer.count);
+                       location.reload();
+                       
+                   }
+                   else
+                   {
+                       alert(serverAnswer.message);
+                   }
+               },
+               error: function () {
+                   alert("error");
+               }
+           });
+
+          });
+    });
+
+     $(document).ready(function() {
+         $("#msgSender").click(function () {
+
+             var text = $("#inputMsg").val();
+             
+           $.ajax({
+               type: 'POST',
+               dataType: 'json',
+               data: JSON.stringify({ "text": text, 'conversation': selectedConv }),
+               url: '/Conversation/AddMessage',
+               cache: false,
+               contentType: 'application/json; charset=utf-8',
+               success: function (serverAnswer) {
+                   if (serverAnswer.success) {
+
+                       
+                       location.reload();
+                       
+                   }
+                   else
+                   {
+                       alert(serverAnswer.message);
+                   }
+               },
+               error: function () {
+                   alert("error");
+               }
+           });
+
+          });
+
+
+    });
+
+
+
+
+</script>
