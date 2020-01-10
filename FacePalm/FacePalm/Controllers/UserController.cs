@@ -1,6 +1,7 @@
 ﻿using FacePalm.Models;
 using Microsoft.AspNet.Identity;
 using System;
+using System.Collections.Generic;
 using System.Data.Entity;
 using System.IO;
 using System.Linq;
@@ -23,6 +24,42 @@ namespace FacePalm.Controllers
             return View();
         }
 
+        [Authorize(Roles = "Administrator")]
+        public ActionResult SendWarning(string id, string warning)
+        {
+            User user = _applicationDBContext.Users.Find(id);
+            List<string> warnings = user.Warnings;
+            if(warnings == null)
+            {
+                warnings = new List<string>();
+            }
+            try
+            {
+                if (TryUpdateModel(user))
+                {
+                    if (!String.IsNullOrEmpty(warning))
+                    {
+                        warnings.Add(warning);
+                        user.Warnings = warnings;
+                        _applicationDBContext.Users.Attach(user);
+                        _applicationDBContext.Entry(user).State = EntityState.Modified;
+                        _applicationDBContext.SaveChanges();
+                        TempData["message"] = "Warning successfully sent!";
+                        ViewBag.message = TempData["message"].ToString();
+                        return RedirectToAction("Show/" + id);
+                    }
+                    return RedirectToAction("Show/" + id);
+                }
+                return RedirectToAction("Show/" + id);
+            }
+            catch (Exception ex)
+            {
+                TempData["message"] = "Something went wrong..." + ex.ToString();
+                ViewBag.message = TempData["message"].ToString();
+                return View("Error");
+            }
+        }
+
         [Authorize(Roles = "User,Editor,Administrator")]
         public ActionResult Show(string id)
         {
@@ -31,6 +68,7 @@ namespace FacePalm.Controllers
                 ViewBag.message = TempData["message"].ToString();
             }
             User user = _applicationDBContext.Users.Find(id);
+            var warnings = user.Warnings;
             var posts = _applicationDBContext.Posts.Where(p => p.UserId == id);
             var albums = _applicationDBContext.Albums.Where(a => a.UserId == id);
             var currentUserId = User.Identity.GetUserId();
@@ -38,6 +76,7 @@ namespace FacePalm.Controllers
             ViewBag.CurrentUser = currentUserId;
             ViewBag.Posts = posts.OrderByDescending(x => x.Date);
             ViewBag.Albums = albums;
+            ViewBag.Warnings = warnings;
             var friendshipStatus = _applicationDBContext.Friendship.Any(f => (f.FirstUserId == currentUserId && f.SecondUserId == id) || (f.FirstUserId == id && f.SecondUserId == currentUserId));
             if (friendshipStatus)
             {
